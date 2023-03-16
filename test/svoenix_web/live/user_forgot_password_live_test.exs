@@ -1,5 +1,5 @@
 defmodule SvoenixWeb.UserForgotPasswordLiveTest do
-  use SvoenixWeb.ConnCase
+  use SvoenixWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
   import Svoenix.AccountsFixtures

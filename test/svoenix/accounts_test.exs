@@ -1,5 +1,5 @@
 defmodule Svoenix.AccountsTest do
-  use Svoenix.DataCase
+  use Svoenix.DataCase, async: true
 
   alias Svoenix.Accounts
 

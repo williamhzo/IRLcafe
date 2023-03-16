@@ -1,5 +1,5 @@
 defmodule SvoenixWeb.UserSettingsLiveTest do
-  use SvoenixWeb.ConnCase
+  use SvoenixWeb.ConnCase, async: true
 
   alias Svoenix.Accounts
   import Phoenix.LiveViewTest

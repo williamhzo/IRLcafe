@@ -1,0 +1,7 @@
+export DATABASE_PORT="5432"
+export DATABASE_HOST="localhost"
+export DATABASE_NAME="svoenix"
+export DATABASE_USERNAME="postgres"
+export DATABASE_PASSWORD="postgres"
+
+export SECRET_KEY_BASE="" # run `mix phx.gen.secret` to generate one

@@ -1,0 +1,49 @@
+.dockerignore
+Dockerfile
+
+# there are valid reasons to keep the .git, namely so that you can get the
+# current commit hash
+/.git/
+
+.log
+/tmp/
+
+# Mix artifacts
+/_build/
+/cover/
+/deps/
+/priv/plts/
+*.ez
+releases
+
+/.vscode/
+/.elixir_ls/
+.iex.exs
+
+/.github/
+.gitignore
+
+.env
+.envrc
+.envrc.example
+
+fly.toml
+README.md
+.formatter.exs
+docker-compose.yml
+
+# Livebooks
+**/*.livemd
+
+# dev scripts
+/dev/bin
+
+# Generate on crash by the VM
+erl_crash.dump
+
+# Static artifacts
+/assets/node_modules/
+/priv/static/assets/
+
+# Other sub-apps
+/umami/

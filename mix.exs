@@ -8,6 +8,10 @@ defmodule Svoenix.MixProject do
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
+      test_coverage: [
+        summary: [threshold: 15]
+      ],
+      preferred_cli_env: ["test.watch": :test],
       aliases: aliases(),
       deps: deps()
     ]
@@ -67,7 +71,13 @@ defmodule Svoenix.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      ci: [
+        "format",
+        "cmd MIX_ENV=dev  mix compile --all-warnings --warnings-as-errors",
+        "cmd MIX_ENV=test mix compile --all-warnings --warnings-as-errors",
+        "cmd MIX_ENV=test mix test"
+      ]
     ]
   end
 end

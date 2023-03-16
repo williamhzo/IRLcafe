@@ -8,6 +8,7 @@ defmodule Svoenix.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      {NodeJS.Supervisor, [path: "#{File.cwd!()}/assets", pool_size: 4]},
       # Start the Telemetry supervisor
       SvoenixWeb.Telemetry,
       # Start the Ecto repository

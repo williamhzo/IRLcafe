@@ -1,18 +1,12 @@
 # Svoenix
 
-To start your Phoenix server:
+[![CI](https://github.com/williamhzo/svoenix/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/williamhzo/svoenix/actions/workflows/CI.yml)
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Get started
+
+1. Install dependencies: `mix deps.get`
+2. Start database: `docker compose up -d db`
+3. Create and migrate the database: `mix ecto.setup`
+4. Start app: `iex -S mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix

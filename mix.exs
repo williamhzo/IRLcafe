@@ -79,6 +79,11 @@ defmodule Svoenix.MixProject do
         "cmd MIX_ENV=dev  mix compile --all-warnings --warnings-as-errors",
         "cmd MIX_ENV=test mix compile --all-warnings --warnings-as-errors",
         "cmd MIX_ENV=test mix test"
+      ],
+      reset: [
+        "rm -rf _build deps cover priv/static/assets .elixir_ls assets/node_modules",
+        "mix setup",
+        "mix ci"
       ]
     ]
   end

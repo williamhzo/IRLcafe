@@ -1,0 +1,32 @@
+<.header>
+  City <%= @city.id %>
+  <:subtitle>This is a city record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/cities/#{@city}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit city</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @city.name %></:item>
+  <:item title="Slug"><%= @city.slug %></:item>
+</.list>
+
+<.back navigate={~p"/cities"}>Back to cities</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="city-modal"
+  show
+  on_cancel={JS.patch(~p"/cities/#{@city}")}
+>
+  <.live_component
+    module={SvoenixWeb.CityLive.FormComponent}
+    id={@city.id}
+    title={@page_title}
+    action={@live_action}
+    city={@city}
+    patch={~p"/cities/#{@city}"}
+  />
+</.modal>

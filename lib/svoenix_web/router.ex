@@ -21,6 +21,7 @@ defmodule SvoenixWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive, :home
+    live "/city/:slug", AppLive, :index
 
     live "/test", TestLive, :index
 
@@ -29,6 +30,12 @@ defmodule SvoenixWeb.Router do
     live "/places/:id/edit", PlaceLive.Index, :edit
     live "/places/:id", PlaceLive.Show, :show
     live "/places/:id/show/edit", PlaceLive.Show, :edit
+
+    live "/cities", CityLive.Index, :index
+    live "/cities/new", CityLive.Index, :new
+    live "/cities/:id/edit", CityLive.Index, :edit
+    live "/cities/:slug", CityLive.Show, :show
+    live "/cities/:id/show/edit", CityLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

@@ -1,7 +1,8 @@
 defmodule SvoenixWeb.HomeLive do
   use SvoenixWeb, :live_view
 
-  alias SvoenixWeb.Components.Svelte
+  alias Svoenix.Cities
+  alias Svoenix.Cities.City
 
   def render(assigns) do
     ~H"""
@@ -11,26 +12,34 @@ defmodule SvoenixWeb.HomeLive do
         <h2 class="text-lg text-slate-500">find the best spots near you</h2>
       </header>
 
-      <form for={@form} phx-submit="update_city">
-        <label for={@form}>
-          <input
-            field={@form[:city]}
-            type="text"
-            placeholder="Lisbon, Portugal"
-            label="City"
-            autocomplete="new-password"
-          />
-        </label>
+      <.simple_form for={@form} id="city-form" phx-submit="save">
+        <.input field={@form[:name]} type="text" label="Name" />
 
-        <button type="submit">find some spots</button>
-      </form>
+        <:actions>
+          <.button phx-disable-with="Saving...">Next</.button>
+        </:actions>
+      </.simple_form>
     </section>
     """
   end
 
-  def mount(_params, _session, socket) do
-    socket = assign(socket, city_form: %{}, toForm(:city_form))
+  ### Server
 
+  def mount(_params, _session, socket) do
+    socket = assign(socket, :form, to_form(%{"name" => nil}))
     {:ok, socket}
+  end
+
+  def handle_event("save", %{"name" => name}, socket) do
+    case get_city(name) do
+      nil -> {:noreply, socket}
+      %City{slug: slug} -> {:noreply, push_navigate(socket, to: ~p"/city/#{slug}")}
+    end
+  end
+
+  ### Helpers
+
+  defp get_city(name) do
+    Svoenix.Cities.get_city_by_name(name)
   end
 end

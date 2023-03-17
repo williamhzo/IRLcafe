@@ -1,0 +1,47 @@
+<.header>
+  Listing Cities
+  <:actions>
+    <.link patch={~p"/cities/new"}>
+      <.button>New City</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="cities"
+  rows={@streams.cities}
+  row_click={fn {_id, city} -> JS.navigate(~p"/cities/#{city}") end}
+>
+  <:col :let={{_id, city}} label="Name"><%= city.name %></:col>
+  <:col :let={{_id, city}} label="Slug"><%= city.slug %></:col>
+  <:action :let={{_id, city}}>
+    <div class="sr-only">
+      <.link navigate={~p"/cities/#{city}"}>Show</.link>
+    </div>
+    <.link patch={~p"/cities/#{city}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, city}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: city.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="city-modal"
+  show
+  on_cancel={JS.navigate(~p"/cities")}
+>
+  <.live_component
+    module={SvoenixWeb.CityLive.FormComponent}
+    id={@city.id || :new}
+    title={@page_title}
+    action={@live_action}
+    city={@city}
+    patch={~p"/cities"}
+  />
+</.modal>

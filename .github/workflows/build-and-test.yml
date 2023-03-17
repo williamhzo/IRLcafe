@@ -54,6 +54,9 @@ jobs:
           otp-version: ${{ inputs.otp-version }}
           build-flags: --all-warnings --warnings-as-errors
 
+      - name: Install npm dependencies
+        run: npm install --prefix assets --no-fund --no-audit
+
       - name: Run Tests
         # run: mix coveralls.json --warnings-as-errors
         run: mix test --cover --warnings-as-errors

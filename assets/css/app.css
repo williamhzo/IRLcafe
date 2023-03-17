@@ -1,4 +1,9 @@
 @import "tailwindcss/base";
+
+body {
+  @apply text-brand;
+}
+
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 

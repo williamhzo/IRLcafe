@@ -1,0 +1,50 @@
+<.header>
+  Listing Places
+  <:actions>
+    <.link patch={~p"/places/new"}>
+      <.button>New Place</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="places"
+  rows={@streams.places}
+  row_click={fn {_id, place} -> JS.navigate(~p"/places/#{place}") end}
+>
+  <:col :let={{_id, place}} label="Label"><%= place.label %></:col>
+  <:col :let={{_id, place}} label="X"><%= place.x %></:col>
+  <:col :let={{_id, place}} label="Y"><%= place.y %></:col>
+  <:col :let={{_id, place}} label="City"><%= place.city %></:col>
+  <:col :let={{_id, place}} label="Description"><%= place.description %></:col>
+  <:action :let={{_id, place}}>
+    <div class="sr-only">
+      <.link navigate={~p"/places/#{place}"}>Show</.link>
+    </div>
+    <.link patch={~p"/places/#{place}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, place}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: place.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="place-modal"
+  show
+  on_cancel={JS.navigate(~p"/places")}
+>
+  <.live_component
+    module={SvoenixWeb.PlaceLive.FormComponent}
+    id={@place.id || :new}
+    title={@page_title}
+    action={@live_action}
+    place={@place}
+    patch={~p"/places"}
+  />
+</.modal>

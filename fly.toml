@@ -3,7 +3,6 @@
 app = "irlcafe"
 kill_signal = "SIGTERM"
 kill_timeout = 5
-primary_region = "mad"
 processes = []
 
 [deploy]

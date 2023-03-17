@@ -1,4 +1,4 @@
 <script>
 </script>
 
-<div id="map-container" class="w-full h-screen">home</div>
+<div id="map-container" class="text-red-300 text-3xl">home</div>

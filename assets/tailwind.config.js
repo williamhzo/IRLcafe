@@ -5,6 +5,9 @@ const plugin = require("tailwindcss/plugin")
 const fs = require("fs")
 const path = require("path")
 
+const defaultTheme = require('tailwindcss/defaultTheme')
+const { colors } = defaultTheme
+
 module.exports = {
   content: [
     "./js/**/*.js",
@@ -16,6 +19,11 @@ module.exports = {
     extend: {
       colors: {
         brand: "#FD4F00",
+        gray: colors.slate,
+        background: {
+          DEFAULT: colors.white,
+          // dark: colors.gray[200]
+        }
       }
     },
   },

@@ -38,10 +38,10 @@ jobs:
     needs: [build-and-test, quality-checks]
     uses: ./.github/workflows/build-docker-image.yml
 
-  # deploy-to-fly-io:
-  #   if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
-  #   name: "deploy to fly.io"
-  #   needs: [build-docker-image]
-  #   uses: ./.github/workflows/deploy-to-fly-io.yml
-  #   secrets:
-  #     FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  deploy-to-fly-io:
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+    name: "deploy to fly.io"
+    needs: [build-docker-image]
+    uses: ./.github/workflows/deploy-to-fly-io.yml
+    secrets:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

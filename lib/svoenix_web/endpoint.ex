@@ -1,6 +1,8 @@
 defmodule SvoenixWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :svoenix
 
+  plug :canonical_host
+
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
@@ -20,7 +22,7 @@ defmodule SvoenixWeb.Endpoint do
   plug Plug.Static,
     at: "/",
     from: :svoenix,
-    gzip: false,
+    gzip: true,
     only: SvoenixWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
@@ -48,4 +50,17 @@ defmodule SvoenixWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug SvoenixWeb.Router
+
+  ### Helpers
+
+  defp canonical_host(conn, _opts) do
+    case Application.get_env(:svoenix, :canonical_host) do
+      host when is_binary(host) and host != "" ->
+        opts = PlugCanonicalHost.init(canonical_host: host)
+        PlugCanonicalHost.call(conn, opts)
+
+      _ ->
+        conn
+    end
+  end
 end

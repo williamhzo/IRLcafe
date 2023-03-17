@@ -61,7 +61,31 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port
     ],
+    check_origin:
+      [
+        "http://#{host}",
+        "https://#{host}",
+        "http://www.#{host}",
+        "https://www.#{host}",
+        "http://irlcafe.fly.dev",
+        "https://irlcafe.fly.dev",
+        "http://www.irlcafe.fly.dev",
+        "https://www.irlcafe.fly.dev",
+        "https://www.irlcafe.fly.dev",
+        # Authorize ports 4000 (local) & 4001 (docker-compose) on localhost
+        host == "localhost" &&
+          [
+            "http://localhost:4000",
+            "https://localhost:4000",
+            "http://localhost:4001",
+            "https://localhost:4001"
+          ]
+      ]
+      |> List.flatten()
+      |> Enum.filter(& &1),
     secret_key_base: secret_key_base
+
+  config :svoenix, canonical_host: System.get_env("PHX_HOST")
 
   # ## SSL Support
   #

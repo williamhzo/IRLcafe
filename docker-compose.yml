@@ -6,7 +6,7 @@ services:
       context: .
     restart: always
     ports:
-      - "${PORT:-5000}:4000"
+      - "${PORT:-4001}:4000"
     environment:
       PORT: 4000
       PHX_HOST: localhost
@@ -26,7 +26,7 @@ services:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       # POSTGRES_DB: ${DATABASE_NAME}
-      POSTGRES_MULTIPLE_DATABASES: ${DATABASE_NAME}
+      POSTGRES_MULTIPLE_DATABASES: ${DATABASE_NAME},${DATABASE_NAME}_dev
 
 volumes:
   postgres-data:

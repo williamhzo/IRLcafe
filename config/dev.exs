@@ -22,7 +22,7 @@ config :svoenix, SvoenixWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
-  debug_errors: true,
+  debug_errors: false,
   secret_key_base: "3UTZbriYC585I3b2nr97M6yANK/Cfhi+8jfh1arM0QLsO5H08SaNrWFGqEpmxAz3",
   watchers: [
     node: ["build.js", "--watch", cd: Path.expand("../assets", __DIR__)],

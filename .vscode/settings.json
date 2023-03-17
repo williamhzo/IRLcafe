@@ -19,7 +19,7 @@
   },
   "[elixir]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "JakeBecker.elixir-ls"
+    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
   },
   "[phoenix-heex]": {
     "editor.formatOnSave": true,

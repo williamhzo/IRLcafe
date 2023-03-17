@@ -8,7 +8,7 @@ defmodule SvoenixWeb.HomeLive do
     ~H"""
     <section class="flex flex-col items-center gap-12 px-4 py-12 container">
       <header class="flex flex-col gap-1 items-center">
-        <h1 class="tracking widest text-3xl font-semibold">coffree</h1>
+        <h1 class="tracking widest text-3xl font-semibold">IRL.café</h1>
         <h2 class="text-lg text-slate-500">find the best spots near you</h2>
       </header>
 
@@ -31,7 +31,7 @@ defmodule SvoenixWeb.HomeLive do
   end
 
   def handle_event("save", %{"name" => name}, socket) do
-    case get_city(name) do
+    case name |> String.capitalize() |> get_city() do
       nil -> {:noreply, socket}
       %City{slug: slug} -> {:noreply, push_navigate(socket, to: ~p"/city/#{slug}")}
     end
@@ -40,6 +40,6 @@ defmodule SvoenixWeb.HomeLive do
   ### Helpers
 
   defp get_city(name) do
-    Svoenix.Cities.get_city_by_name(name)
+    Cities.get_city_by_name(name)
   end
 end

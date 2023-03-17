@@ -19,7 +19,7 @@ ARG RUNNER_IMAGE="alpine:${ALPINE_VERSION}"
 FROM ${BUILDER_IMAGE} AS deps
 
 WORKDIR /app
-RUN apk add --no-progress --update git build-base
+RUN apk add --no-cache --update --no-progress git build-base
 
 ARG MIX_ENV="prod"
 
@@ -50,11 +50,11 @@ RUN mix compile
 ####################
 FROM deps AS build-assets
 
-# # install Nodejs
+# install Nodejs
 ARG NODE_VERSION="19.7.0"
-RUN apk add --update nodejs-current=~${NODE_VERSION} npm && npm i -g npm
+RUN apk add --no-cache --update --no-progress nodejs-current=~${NODE_VERSION} npm && npm i -g npm
 
-# # install npm dependencies
+# install npm dependencies
 COPY assets/package.json assets/package-lock.json assets/
 RUN npm install --prefix assets --no-fund --no-audit
 
@@ -90,7 +90,11 @@ FROM ${RUNNER_IMAGE}
 
 WORKDIR /app
 RUN chown nobody /app
-RUN apk add --no-cache libstdc++ openssl ncurses-libs
+RUN apk add --no-cache --update --no-progress libstdc++ openssl ncurses-libs
+
+# install Nodejs (for Server Side Svelte)
+ARG NODE_VERSION="19.7.0"
+RUN apk add --no-cache --update --no-progress nodejs-current=~${NODE_VERSION} npm && npm i -g npm
 
 # NOTE: Set the locale
 # RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen

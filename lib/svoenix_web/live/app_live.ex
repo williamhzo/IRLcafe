@@ -6,17 +6,14 @@ defmodule SvoenixWeb.AppLive do
 
   def render(assigns) do
     ~H"""
-
     <section class="container flex flex-col">
+      <h1 class="text-brand font-bold"><%= @city.name %></h1>
 
-    <h1 class="text-brand font-bold"><%= @city.name %></h1>
-
-
-    <ul>
-    <li :for={place <- @places}>
-    <%= place.label %>
-    </li>
-    </ul>
+      <ul>
+        <li :for={place <- @places}>
+          <%= place.label %>
+        </li>
+      </ul>
     </section>
     """
   end

@@ -12,7 +12,8 @@ processes = []
 [env]
   ECTO_IPV6 = "true"
   ERL_AFLAGS = "-proto_dist inet6_tcp"
-  PHX_HOST = "irlcafe.fly.dev"
+  # PHX_HOST = "irlcafe.fly.dev"
+  PHX_HOST = "irl.cafe"
   PORT = "8080"
 
 [experimental]

@@ -1,9 +1,11 @@
 defmodule SvoenixWeb.HomeLive do
   use SvoenixWeb, :live_view
 
+  alias SvoenixWeb.Components.Svelte
+
   def render(assigns) do
     ~H"""
-    <LiveSvelte.render name="Home" />
+    <Svelte.render id="example-svelte" name="Example" />
     """
   end
 

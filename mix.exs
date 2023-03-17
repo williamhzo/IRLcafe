@@ -37,7 +37,6 @@ defmodule Svoenix.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 3.0"},
-      {:live_svelte, "~> 0.3.1"},
       {:phoenix, "~> 1.7.1"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
@@ -73,7 +72,11 @@ defmodule Svoenix.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing"],
       "assets.build": ["tailwind default"],
-      "assets.deploy": ["cmd --cd assets node build.js --deploy", "phx.digest"],
+      "assets.deploy": [
+        "tailwind default --minify",
+        "cmd --cd assets node build.js --deploy",
+        "phx.digest"
+      ],
       ci: [
         "format",
         "cmd MIX_ENV=dev  mix compile --all-warnings --warnings-as-errors",
@@ -81,9 +84,9 @@ defmodule Svoenix.MixProject do
         "cmd MIX_ENV=test mix test"
       ],
       reset: [
-        "rm -rf _build deps cover priv/static/assets .elixir_ls assets/node_modules",
-        "mix setup",
-        "mix ci"
+        "cmd rm -rf _build deps cover priv/static/assets .elixir_ls assets/node_modules",
+        "setup",
+        "ci"
       ]
     ]
   end

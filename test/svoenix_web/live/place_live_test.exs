@@ -4,8 +4,20 @@ defmodule SvoenixWeb.PlaceLiveTest do
   import Phoenix.LiveViewTest
   import Svoenix.PlacesFixtures
 
-  @create_attrs %{city: "some city", description: "some description", label: "some label", x: "some x", y: "some y"}
-  @update_attrs %{city: "some updated city", description: "some updated description", label: "some updated label", x: "some updated x", y: "some updated y"}
+  @create_attrs %{
+    city: "some city",
+    description: "some description",
+    label: "some label",
+    x: "some x",
+    y: "some y"
+  }
+  @update_attrs %{
+    city: "some updated city",
+    description: "some updated description",
+    label: "some updated label",
+    x: "some updated x",
+    y: "some updated y"
+  }
   @invalid_attrs %{city: nil, description: nil, label: nil, x: nil, y: nil}
 
   defp create_place(_) do

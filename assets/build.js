@@ -1,87 +1,56 @@
 const esbuild = require("esbuild");
 const sveltePlugin = require("esbuild-svelte");
-const importGlobPlugin = require("esbuild-plugin-import-glob").default;
-const sveltePreprocess = require("svelte-preprocess");
 
 const args = process.argv.slice(2);
 const watch = args.includes("--watch");
 const deploy = args.includes("--deploy");
 
-let optsClient = {
-  entryPoints: ["js/app.js"],
-  mainFields: ["svelte", "browser", "module", "main"],
-  bundle: true,
-  minify: false,
-  target: "es2017",
-  outdir: "../priv/static/assets",
-  logLevel: "info",
-  plugins: [
-    importGlobPlugin(),
-    sveltePlugin({
-      preprocess: sveltePreprocess(),
-      compilerOptions: { hydratable: true, css: true },
-    }),
-  ],
+const loader = {
+  // Add loaders for images/fonts/etc, e.g. { '.svg': 'file' }
 };
 
-let optsServer = {
-  entryPoints: ["js/server.js", "js/render.js"],
-  mainFields: ["svelte", "module", "main"],
-  platform: "node",
-  format: "cjs",
-  bundle: true,
-  minify: false,
-  target: "node19.6.1",
-  outdir: "../priv/static/assets/server",
-  logLevel: "info",
-  plugins: [
-    importGlobPlugin(),
-    sveltePlugin({
-      preprocess: sveltePreprocess(),
-      compilerOptions: { hydratable: true, generate: "ssr", format: "cjs" },
-    }),
+const plugins = [
+  sveltePlugin(),
+  // Add and configure plugins here
+];
+
+let opts = {
+  entryPoints: [
+    "js/app.js",
+    // ... other here
   ],
+  mainFields: ["svelte", "browser", "module", "main"],
+  chunkNames: "chunks/[name]-[hash]",
+  splitting: true,
+  format: "esm",
+  bundle: true,
+  target: "es2017",
+  outdir: "../priv/static/assets",
+  external: ["/fonts/*", "/images/*"],
+  logLevel: "info",
+  loader,
+  plugins,
 };
 
 if (watch) {
-  optsClient = {
-    ...optsClient,
-    watch,
-    sourcemap: "inline",
-  };
-
-  optsServer = {
-    ...optsServer,
+  opts = {
+    ...opts,
     watch,
     sourcemap: "inline",
   };
 }
 
 if (deploy) {
-  optsClient = {
-    ...optsClient,
-    minify: true,
-  };
-
-  optsServer = {
-    ...optsServer,
+  opts = {
+    ...opts,
     minify: true,
   };
 }
 
-const client = esbuild.build(optsClient);
-const server = esbuild.build(optsServer);
+const promise = esbuild.build(opts);
 
 if (watch) {
-  client.then((_result) => {
-    process.stdin.on("close", () => {
-      process.exit(0);
-    });
-
-    process.stdin.resume();
-  });
-
-  server.then((_result) => {
+  promise.then((_result) => {
     process.stdin.on("close", () => {
       process.exit(0);
     });

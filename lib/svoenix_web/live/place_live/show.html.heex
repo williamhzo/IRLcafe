@@ -18,7 +18,12 @@
 
 <.back navigate={~p"/places"}>Back to places</.back>
 
-<.modal :if={@live_action == :edit} id="place-modal" show on_cancel={JS.patch(~p"/places/#{@place}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="place-modal"
+  show
+  on_cancel={JS.patch(~p"/places/#{@place}")}
+>
   <.live_component
     module={SvoenixWeb.PlaceLive.FormComponent}
     id={@place.id}

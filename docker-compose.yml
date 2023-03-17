@@ -15,7 +15,7 @@ services:
       DATABASE_URL: postgres://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@db:5432/${DATABASE_NAME}
 
   db:
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     restart: always
     ports:
       - "${DATABASE_PORT:-5432}:5432"

@@ -3,11 +3,7 @@ defmodule SvoenixWeb.HomeLive do
 
   def render(assigns) do
     ~H"""
-    <div class="flex flex-col space-y-8">
-      <h1 class="font-bold text-2xl">Welcome</h1>
-
-      <LiveSvelte.render name="Example" props={%{number: @number}} />
-    </div>
+    <LiveSvelte.render name="Home" />
     """
   end
 

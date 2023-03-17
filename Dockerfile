@@ -51,16 +51,16 @@ RUN mix compile
 FROM deps AS build-assets
 
 # # install Nodejs
-# ARG NODE_VERSION="17.9.0"
-# RUN apk add --update nodejs-current=~${NODE_VERSION} npm && npm i -g npm
+ARG NODE_VERSION="19.7.0"
+RUN apk add --update nodejs-current=~${NODE_VERSION} npm && npm i -g npm
 
 # # install npm dependencies
-# COPY assets/package.json assets/package-lock.json assets/
-# RUN npm install --prefix assets --no-fund --no-audit
+COPY assets/package.json assets/package-lock.json assets/
+RUN npm install --prefix assets --no-fund --no-audit
 
 ARG MIX_ENV="prod"
 
-# install Tailwind & Esbuild
+# install Tailwind
 RUN mix assets.setup
 
 COPY priv priv

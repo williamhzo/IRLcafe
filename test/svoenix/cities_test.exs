@@ -25,9 +25,9 @@ defmodule Svoenix.CitiesTest do
       assert Cities.get_city_by_slug!(city.slug) == city
     end
 
-    test "get_city_by_name!/1 returns the city with given name" do
+    test "get_city_by_name/1 returns the city with given name" do
       city = city_fixture()
-      assert Cities.get_city_by_name!(city.name) == city
+      assert Cities.get_city_by_name(city.name) == city
     end
 
     test "create_city/1 with valid data creates a city" do

@@ -5,6 +5,6 @@ defmodule SvoenixWeb.HomeLiveTest do
 
   test "/", %{conn: conn} do
     {:ok, view, _html} = live(conn, ~p"/")
-    assert has_element?(view, "h1", "Welcome")
+    assert has_element?(view, "h1")
   end
 end

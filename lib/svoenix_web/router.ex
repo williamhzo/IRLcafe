@@ -34,7 +34,7 @@ defmodule SvoenixWeb.Router do
     live "/cities", CityLive.Index, :index
     live "/cities/new", CityLive.Index, :new
     live "/cities/:id/edit", CityLive.Index, :edit
-    live "/cities/:slug", CityLive.Show, :show
+    live "/cities/:id", CityLive.Show, :show
     live "/cities/:id/show/edit", CityLive.Show, :edit
   end
 

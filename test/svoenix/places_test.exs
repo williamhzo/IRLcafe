@@ -7,12 +7,19 @@ defmodule Svoenix.PlacesTest do
     alias Svoenix.Places.Place
 
     import Svoenix.PlacesFixtures
+    import Svoenix.CitiesFixtures, only: [city_fixture: 0]
 
     @invalid_attrs %{city: nil, description: nil, label: nil, x: nil, y: nil}
 
     test "list_places/0 returns all places" do
       place = place_fixture()
       assert Places.list_places() == [place]
+    end
+
+    test "list_places_of_city_slug/1 returns all places of given city" do
+      city = city_fixture()
+      place = place_fixture(%{}, city.id)
+      assert Places.list_places_of_city_slug(city.slug) == [place]
     end
 
     test "get_place!/1 returns the place with given id" do

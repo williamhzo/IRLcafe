@@ -7,6 +7,7 @@ defmodule Svoenix.Places do
   alias Svoenix.Repo
 
   alias Svoenix.Places.Place
+  alias Svoenix.Cities.City
 
   @doc """
   Returns the list of places.
@@ -21,6 +22,13 @@ defmodule Svoenix.Places do
     Place
     |> Repo.all()
     |> Repo.preload(:city)
+  end
+
+  def list_places_of_city_slug(city_slug) do
+    City
+    |> Repo.get_by!(slug: city_slug)
+    |> Repo.preload(places: [:city])
+    |> Map.get(:places)
   end
 
   @doc """

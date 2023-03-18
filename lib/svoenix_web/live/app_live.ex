@@ -56,17 +56,9 @@ defmodule SvoenixWeb.AppLive do
     socket =
       assign(socket,
         city: Cities.get_city_by_slug!(city_slug),
-        places: list_places_of_city(city_slug)
+        places: Places.list_places_of_city_slug(city_slug)
       )
 
     {:noreply, socket}
-  end
-
-  ### Helpers
-
-  defp list_places_of_city(city_slug) do
-    # TODO: proper filtering with db query
-    Places.list_places()
-    |> Enum.filter(&(&1.city == city_slug))
   end
 end

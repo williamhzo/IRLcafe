@@ -15,10 +15,10 @@ defmodule SvoenixWeb.HomeLive do
       </header>
 
       <.simple_form for={@form} id="city-form" phx-submit="save">
-        <.input field={@form[:name]} type="text" label="Name" />
+        <.input field={@form[:name]} type="text" label="Name" placeholder="Lisbon" />
 
         <:actions>
-          <.button phx-disable-with="Saving...">explore</.button>
+          <.button class="w-full" phx-disable-with="exploring...">explore</.button>
         </:actions>
       </.simple_form>
     </section>

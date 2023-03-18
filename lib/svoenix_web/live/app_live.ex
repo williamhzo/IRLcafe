@@ -3,42 +3,50 @@ defmodule SvoenixWeb.AppLive do
 
   alias Svoenix.Cities
   alias Svoenix.Places
+  alias Svoenix.Bookings
+  alias SvoenixWeb.Components.Svelte
 
   def render(assigns) do
     ~H"""
     <section class="flex flex-col items-center gap-5 py-8 md:gap-12 md:py-16 md:px-8">
-      <div class="w-full flex flex-col items-start max-w-[min(100%,60rem)]">
+      <Svelte.render id="slots" name="Slots" />
+      <div class=" w-full flex flex-col items-start max-w-[min(100%,60rem)]">
         <ul class="first:pl-[10%] scrollbar-none flex w-full snap-x snap-mandatory items-start gap-2 overflow-x-scroll">
           <li
             :for={place <- @places}
-            class="rounded-base relative grid grid-rows-[auto,1fr,auto] border p-3 xs:p-4 sm:p-5 border-gray-100 h-full w-[90%] shrink-0 bg-gray-50/75 snap-center gap-4"
+            class="rounded-base border p-3 xs:p-4 sm:p-5 border-gray-100 h-full w-[90%] shrink-0 bg-gray-50/75 snap-center"
           >
-            <div class="items-items flex justify-between">
-              <h3 class="text-xl font-bold md:text-lg"><%= place.label %></h3>
+            <button class="grid grid-rows-[auto,1fr,auto] gap-3">
+              <div class="items-items flex justify-between">
+                <h3 class="text-xl font-bold md:text-lg"><%= place.label %></h3>
 
-              <span class="relative flex h-3 w-3 shrink-0">
-                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-                <span class="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
-              </span>
-            </div>
+                <span class="relative flex h-3 w-3 shrink-0">
+                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                  <span class="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
+                </span>
+              </div>
 
-            <p class="prose lowercase"><%= place.description %></p>
-            <small class="text-muted text-base lowercase">John and 7 others are meeting there</small>
+              <p class="prose lowercase text-start"><%= place.description %></p>
 
-            <img
-              src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max"
-              class="max-h-[50vh] w-full max-w-full rounded-lg object-cover object-center"
-            />
+              <small class="text-muted text-base lowercase text-start">
+                John and 7 others are meeting there
+              </small>
 
-            <div class="flex flex-col items-center">
-              <p class="text-muted text-center">420 m from your location</p>
-              <a
-                href="https://goo.gl/maps/MB5bAcswpUryWinm9"
-                class="text-center text-sm font-normal underline"
-              >
-                see in google maps
-              </a>
-            </div>
+              <img
+                src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max"
+                class="w-full max-w-full rounded-lg object-cover object-center aspect-video"
+              />
+
+              <div class="flex flex-col items-center">
+                <p class="text-muted text-center">420 m from your location</p>
+                <a
+                  href="https://goo.gl/maps/MB5bAcswpUryWinm9"
+                  class="text-center text-sm font-normal underline"
+                >
+                  see in google maps
+                </a>
+              </div>
+            </button>
           </li>
         </ul>
       </div>
@@ -60,5 +68,14 @@ defmodule SvoenixWeb.AppLive do
       )
 
     {:noreply, socket}
+  end
+
+  def handle_event("submit_bookings", %{"slots" => slots}, socket) do
+    slots
+    |> Enum.map(fn booking_params ->
+      Bookings.create_booking(booking_params)
+    end)
+
+    {:noreply, push_navigate(socket, to: ~p"/#{socket.assigns.city.slug}")}
   end
 end

@@ -4,10 +4,13 @@ defmodule Svoenix.Repo.Migrations.CreateCities do
   def change do
     create table(:cities, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :name, :string, unique: true
-      add :slug, :string, unique: true
+      add :name, :string, null: false
+      add :slug, :string, null: false
 
       timestamps()
     end
+
+    create unique_index(:cities, [:name])
+    create unique_index(:cities, [:slug])
   end
 end

@@ -17,14 +17,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        gray: colors.slate,
+        gray: colors.zinc,
         brand: colors.gray[900],
         primary: colors.gray,
         background: {
           DEFAULT: colors.gray[50],
-        }
+        },
+        muted: colors.gray[500],
+      },
+      borderRadius: {
+        base: "0.75rem"
       },
     },
+    typography: {
+      DEFAULT: {
+        css: {
+          color: colors.copy,
+        }
+      }
+      },
+    container: {
+      center: true,
+    }
   },
   plugins: [
     require("@tailwindcss/forms"),
@@ -94,5 +108,10 @@ module.exports = {
         { values }
       );
     }),
+  ],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('tailwind-scrollbar'),
   ],
 };

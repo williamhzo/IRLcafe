@@ -6,7 +6,7 @@ defmodule SvoenixWeb.AppLive do
 
   def render(assigns) do
     ~H"""
-    <section class="container flex max-w-lg flex-col items-center gap-5 px-4 py-4 md:gap-12 md:py-8">
+    <section class="container flex flex-col items-center gap-5 px-4 py-4 md:gap-12 md:py-8">
       <header class="flex flex-col items-center">
         <p class="text-muted">current city</p>
         <h1 class="text-brand text-xl font-bold uppercase tracking-tight">
@@ -14,11 +14,11 @@ defmodule SvoenixWeb.AppLive do
         </h1>
       </header>
 
-      <div class="flex flex-col items-start">
-        <ul class="scrollbar-none flex snap-x snap-mandatory gap-2 overflow-x-scroll">
+      <div class="flex w-full flex-col items-start">
+        <ul class="scrollbar-none flex w-full snap-x snap-mandatory items-start gap-2 overflow-x-scroll">
           <li
             :for={place <- @places}
-            class="rounded-base relative grid grid-rows-[auto,1fr,auto] border p-5 border-gray-200 h-full w-full shrink-0 bg-gray-50 snap-start gap-4"
+            class="rounded-base relative grid grid-rows-[auto,1fr,auto] border p-5 border-gray-100 h-full w-full shrink-0 bg-gray-50 snap-start gap-4"
           >
             <div class="items-items flex justify-between">
               <h3 class="text-xl font-bold md:text-lg"><%= place.label %></h3>
@@ -30,17 +30,20 @@ defmodule SvoenixWeb.AppLive do
             </div>
 
             <p class="prose lowercase"><%= place.description %></p>
-            <small class="text-muted text-base">John and 7 others are meeting there</small>
+            <small class="text-muted text-base lowercase">John and 7 others are meeting there</small>
 
             <img
               src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max"
-              class="max-h-[50vh] w-full rounded-lg object-cover object-center"
+              class="max-h-[50vh] w-full max-w-full rounded-lg object-cover object-center"
             />
 
             <div class="flex flex-col items-center">
               <p class="text-muted text-center">420 m from your location</p>
-              <a href="https://goo.gl/maps/MB5bAcswpUryWinm9" class="text-sm font-normal underline">
-                see in Google Maps
+              <a
+                href="https://goo.gl/maps/MB5bAcswpUryWinm9"
+                class="text-center text-sm font-normal underline"
+              >
+                see in google maps
               </a>
             </div>
           </li>

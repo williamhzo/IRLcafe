@@ -1,5 +1,5 @@
 defmodule Svoenix.PlacesTest do
-  use Svoenix.DataCase
+  use Svoenix.DataCase, async: true
 
   alias Svoenix.Places
 

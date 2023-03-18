@@ -4,7 +4,6 @@ defmodule SvoenixWeb.CityLiveTest do
   import Phoenix.LiveViewTest
   import Svoenix.CitiesFixtures
 
-  @create_attrs %{name: "some name", slug: "some slug"}
   @update_attrs %{name: "some updated name", slug: "some updated slug"}
   @invalid_attrs %{name: nil, slug: nil}
 
@@ -35,15 +34,18 @@ defmodule SvoenixWeb.CityLiveTest do
              |> form("#city-form", city: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
+      city_attrs = city_attrs()
+      name = city_attrs.name
+
       assert index_live
-             |> form("#city-form", city: @create_attrs)
+             |> form("#city-form", city: city_attrs)
              |> render_submit()
 
       assert_patch(index_live, ~p"/cities")
 
       html = render(index_live)
       assert html =~ "City created successfully"
-      assert html =~ "some name"
+      assert html =~ name
     end
 
     test "updates city in listing", %{conn: conn, city: city} do

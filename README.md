@@ -1,4 +1,4 @@
-# Svoenix
+# IRL café
 
 [![CI](https://github.com/williamhzo/svoenix/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/williamhzo/svoenix/actions/workflows/CI.yml)
 

@@ -156,7 +156,7 @@ defmodule SvoenixWeb.UserAuth do
       socket =
         socket
         |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
-        |> Phoenix.LiveView.redirect(to: ~p"/users/log_in")
+        |> Phoenix.LiveView.redirect(to: ~p"/log_in")
 
       {:halt, socket}
     end
@@ -206,7 +206,7 @@ defmodule SvoenixWeb.UserAuth do
       conn
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: ~p"/users/log_in")
+      |> redirect(to: ~p"/log_in")
       |> halt()
     end
   end

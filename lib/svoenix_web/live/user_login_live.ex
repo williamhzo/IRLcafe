@@ -8,14 +8,14 @@ defmodule SvoenixWeb.UserLoginLive do
         Sign in to account
         <:subtitle>
           Don't have an account?
-          <.link navigate={~p"/users/register"} class="text-brand font-semibold hover:underline">
+          <.link navigate={~p"/register"} class="text-brand font-semibold hover:underline">
             Sign up
           </.link>
           for an account now.
         </:subtitle>
       </.header>
 
-      <.simple_form for={@form} id="login_form" action={~p"/users/log_in"} phx-update="ignore">
+      <.simple_form for={@form} id="login_form" action={~p"/log_in"} phx-update="ignore">
         <.input field={@form[:email]} type="email" label="Email" required />
         <.input field={@form[:password]} type="password" label="Password" required />
 

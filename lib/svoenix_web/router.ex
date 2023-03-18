@@ -67,13 +67,13 @@ defmodule SvoenixWeb.Router do
 
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{SvoenixWeb.UserAuth, :redirect_if_user_is_authenticated}] do
-      live "/users/register", UserRegistrationLive, :new
-      live "/users/log_in", UserLoginLive, :new
+      live "/register", UserRegistrationLive, :new
+      live "/log_in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
       live "/users/reset_password/:token", UserResetPasswordLive, :edit
     end
 
-    post "/users/log_in", UserSessionController, :create
+    post "/log_in", UserSessionController, :create
   end
 
   scope "/", SvoenixWeb do
@@ -81,15 +81,15 @@ defmodule SvoenixWeb.Router do
 
     live_session :require_authenticated_user,
       on_mount: [{SvoenixWeb.UserAuth, :ensure_authenticated}] do
-      live "/users/settings", UserSettingsLive, :edit
-      live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+      live "/settings", UserSettingsLive, :edit
+      live "/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end
   end
 
   scope "/", SvoenixWeb do
     pipe_through [:browser]
 
-    delete "/users/log_out", UserSessionController, :delete
+    delete "/log_out", UserSessionController, :delete
 
     live_session :current_user,
       on_mount: [{SvoenixWeb.UserAuth, :mount_current_user}] do

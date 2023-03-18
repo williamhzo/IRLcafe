@@ -31,8 +31,7 @@ defmodule SvoenixWeb.UserResetPasswordLive do
       </.simple_form>
 
       <p class="mt-4 text-center">
-        <.link href={~p"/users/register"}>Register</.link>
-        | <.link href={~p"/users/log_in"}>Log in</.link>
+        <.link href={~p"/register"}>Register</.link> | <.link href={~p"/log_in"}>Log in</.link>
       </p>
     </div>
     """
@@ -61,7 +60,7 @@ defmodule SvoenixWeb.UserResetPasswordLive do
         {:noreply,
          socket
          |> put_flash(:info, "Password reset successfully.")
-         |> redirect(to: ~p"/users/log_in")}
+         |> redirect(to: ~p"/log_in")}
 
       {:error, changeset} ->
         {:noreply, assign_form(socket, Map.put(changeset, :action, :insert))}

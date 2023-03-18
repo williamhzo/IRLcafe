@@ -61,7 +61,7 @@ defmodule SvoenixWeb.UserResetPasswordLiveTest do
           }
         )
         |> render_submit()
-        |> follow_redirect(conn, ~p"/users/log_in")
+        |> follow_redirect(conn, ~p"/log_in")
 
       refute get_session(conn, :user_token)
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Password reset successfully"
@@ -95,7 +95,7 @@ defmodule SvoenixWeb.UserResetPasswordLiveTest do
         lv
         |> element(~s|main a:fl-contains("Log in")|)
         |> render_click()
-        |> follow_redirect(conn, ~p"/users/log_in")
+        |> follow_redirect(conn, ~p"/log_in")
 
       # assert conn.resp_body =~ "Log in"
     end
@@ -110,7 +110,7 @@ defmodule SvoenixWeb.UserResetPasswordLiveTest do
         lv
         |> element(~s|main a:fl-contains("Register")|)
         |> render_click()
-        |> follow_redirect(conn, ~p"/users/register")
+        |> follow_redirect(conn, ~p"/register")
 
       assert conn.resp_body =~ "Register"
     end

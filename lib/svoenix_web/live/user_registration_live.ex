@@ -11,7 +11,7 @@ defmodule SvoenixWeb.UserRegistrationLive do
         Register for an account
         <:subtitle>
           Already registered?
-          <.link navigate={~p"/users/log_in"} class="text-brand font-semibold hover:underline">
+          <.link navigate={~p"/log_in"} class="text-brand font-semibold hover:underline">
             Sign in
           </.link>
           to your account now.
@@ -24,7 +24,7 @@ defmodule SvoenixWeb.UserRegistrationLive do
         phx-submit="save"
         phx-change="validate"
         phx-trigger-action={@trigger_submit}
-        action={~p"/users/log_in?_action=registered"}
+        action={~p"/log_in?_action=registered"}
         method="post"
       >
         <.error :if={@check_errors}>

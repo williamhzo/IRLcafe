@@ -7,9 +7,12 @@ defmodule SvoenixWeb.AppLive do
   def render(assigns) do
     ~H"""
     <section class="container flex max-w-lg flex-col items-center gap-12 px-4 py-12">
-      <h1 class="text-brand self-start text-lg font-bold uppercase tracking-tight">
-        <%= @city.name %> 🇵🇹
-      </h1>
+      <header class="flex flex-col items-center">
+        <p class="text-muted">current city</p>
+        <h1 class="text-brand text-xl font-bold uppercase tracking-tight">
+          <%= @city.name %>
+        </h1>
+      </header>
 
       <div class="flex flex-col items-start">
         <ul class="scrollbar-none flex snap-x snap-mandatory gap-2 overflow-x-scroll">
@@ -26,22 +29,23 @@ defmodule SvoenixWeb.AppLive do
               </span>
             </div>
 
-            <div>
-              <p class="prose"><%= place.description %></p>
-              <small class="text-muted text-base">John and 7 others are meeting there</small>
-            </div>
+            <p class="prose lowercase"><%= place.description %></p>
+            <small class="text-muted text-base">John and 7 others are meeting there</small>
 
             <img
               src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max"
-              class="w-full rounded-lg object-contain"
+              class="max-h-[50vh] w-full rounded-lg object-cover object-center"
             />
 
-            <p class="text-muted text-center">420m from your location</p>
+            <div class="flex flex-col items-center">
+              <p class="text-muted text-center">420 m from your location</p>
+              <a href="https://goo.gl/maps/MB5bAcswpUryWinm9" class="text-sm font-normal underline">
+                see in Google Maps
+              </a>
+            </div>
           </li>
         </ul>
       </div>
-
-      <button phx-click={JS.navigate(~p"/")}>change city</button>
     </section>
     """
   end

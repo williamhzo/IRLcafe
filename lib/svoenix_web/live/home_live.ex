@@ -8,15 +8,17 @@ defmodule SvoenixWeb.HomeLive do
     ~H"""
     <section class="container flex flex-col items-center gap-12 px-4 py-12">
       <header class="flex flex-col items-center gap-1">
-        <h1 class="tracking widest text-3xl font-semibold">IRL.café</h1>
-        <h2 class="text-lg text-slate-500">find the best spots near you</h2>
+        <h1 class="tracking widest text-4xl font-bold">IRLcafé</h1>
+        <h2 class="text-center text-lg text-slate-500">
+          find the best spots near you & <br /> meet coffee buddies
+        </h2>
       </header>
 
       <.simple_form for={@form} id="city-form" phx-submit="save">
         <.input field={@form[:name]} type="text" label="Name" />
 
         <:actions>
-          <.button phx-disable-with="Saving...">Next</.button>
+          <.button phx-disable-with="Saving...">explore</.button>
         </:actions>
       </.simple_form>
     </section>

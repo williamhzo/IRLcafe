@@ -42,6 +42,8 @@ module.exports = {
   },
   plugins: [
     require("@tailwindcss/forms"),
+    require('@tailwindcss/typography'),
+    require('tailwind-scrollbar'),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:
     //
@@ -108,10 +110,5 @@ module.exports = {
         { values }
       );
     }),
-  ],
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('tailwind-scrollbar'),
   ],
 };

@@ -35,6 +35,12 @@ defmodule SvoenixWeb.Router do
     live "/cities/:id/edit", CityLive.Index, :edit
     live "/cities/:id", CityLive.Show, :show
     live "/cities/:id/show/edit", CityLive.Show, :edit
+
+    live "/bookings", BookingLive.Index, :index
+    live "/bookings/new", BookingLive.Index, :new
+    live "/bookings/:id/edit", BookingLive.Index, :edit
+    live "/bookings/:id", BookingLive.Show, :show
+    live "/bookings/:id/show/edit", BookingLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

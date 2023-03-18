@@ -1,0 +1,32 @@
+<.header>
+  Booking <%= @booking.id %>
+  <:subtitle>This is a booking record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/bookings/#{@booking}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit booking</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Date"><%= @booking.date %></:item>
+  <:item title="Slot"><%= @booking.slot %></:item>
+</.list>
+
+<.back navigate={~p"/bookings"}>Back to bookings</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="booking-modal"
+  show
+  on_cancel={JS.patch(~p"/bookings/#{@booking}")}
+>
+  <.live_component
+    module={SvoenixWeb.BookingLive.FormComponent}
+    id={@booking.id}
+    title={@page_title}
+    action={@live_action}
+    booking={@booking}
+    patch={~p"/bookings/#{@booking}"}
+  />
+</.modal>

@@ -1,0 +1,47 @@
+<.header>
+  Listing Bookings
+  <:actions>
+    <.link patch={~p"/bookings/new"}>
+      <.button>New Booking</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="bookings"
+  rows={@streams.bookings}
+  row_click={fn {_id, booking} -> JS.navigate(~p"/bookings/#{booking}") end}
+>
+  <:col :let={{_id, booking}} label="Date"><%= booking.date %></:col>
+  <:col :let={{_id, booking}} label="Slot"><%= booking.slot %></:col>
+  <:action :let={{_id, booking}}>
+    <div class="sr-only">
+      <.link navigate={~p"/bookings/#{booking}"}>Show</.link>
+    </div>
+    <.link patch={~p"/bookings/#{booking}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, booking}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: booking.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="booking-modal"
+  show
+  on_cancel={JS.navigate(~p"/bookings")}
+>
+  <.live_component
+    module={SvoenixWeb.BookingLive.FormComponent}
+    id={@booking.id || :new}
+    title={@page_title}
+    action={@live_action}
+    booking={@booking}
+    patch={~p"/bookings"}
+  />
+</.modal>

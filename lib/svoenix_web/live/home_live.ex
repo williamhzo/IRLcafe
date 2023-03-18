@@ -35,7 +35,7 @@ defmodule SvoenixWeb.HomeLive do
   def handle_event("save", %{"name" => name}, socket) do
     case name |> String.capitalize() |> get_city() do
       nil -> {:noreply, socket}
-      %City{slug: slug} -> {:noreply, push_navigate(socket, to: ~p"/city/#{slug}")}
+      %City{slug: slug} -> {:noreply, push_navigate(socket, to: ~p"/#{slug}")}
     end
   end
 

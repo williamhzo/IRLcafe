@@ -50,17 +50,27 @@ defmodule SvoenixWeb.AppLive do
     """
   end
 
+  ### Server
+
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
-  def handle_params(%{"slug" => slug} = _params, _url, socket) do
+  def handle_params(%{"city_slug" => city_slug} = _params, _url, socket) do
     socket =
       assign(socket,
-        city: Cities.get_city_by_slug!(slug),
-        places: Places.list_places() |> Enum.filter(&(&1.city == slug))
+        city: Cities.get_city_by_slug!(city_slug),
+        places: list_places_of_city(city_slug)
       )
 
     {:noreply, socket}
+  end
+
+  ### Helpers
+
+  defp list_places_of_city(city_slug) do
+    # TODO: proper filtering with db query
+    Places.list_places()
+    |> Enum.filter(&(&1.city == city_slug))
   end
 end

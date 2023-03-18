@@ -21,7 +21,6 @@ defmodule SvoenixWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive, :home
-    live "/city/:slug", AppLive, :index
 
     live "/test", TestLive, :index
 
@@ -87,7 +86,7 @@ defmodule SvoenixWeb.Router do
   end
 
   scope "/", SvoenixWeb do
-    pipe_through [:browser]
+    pipe_through :browser
 
     delete "/log_out", UserSessionController, :delete
 
@@ -96,5 +95,9 @@ defmodule SvoenixWeb.Router do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
+
+    # NOTE: Please keep at the end of the router,
+    #       because looks like a catch-all route.
+    live "/:city_slug", AppLive, :index
   end
 end

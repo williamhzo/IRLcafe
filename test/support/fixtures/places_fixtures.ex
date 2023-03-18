@@ -4,19 +4,28 @@ defmodule Svoenix.PlacesFixtures do
   entities via the `Svoenix.Places` context.
   """
 
+  def unique_slug do
+    "cafe-#{Ecto.UUID.generate()}"
+  end
+
+  def place_attrs(attrs \\ %{}) do
+    Enum.into(attrs, %{
+      city: "some city",
+      slug: unique_slug(),
+      label: "some label",
+      description: "some description",
+      x: "some x",
+      y: "some y"
+    })
+  end
+
   @doc """
   Generate a place.
   """
   def place_fixture(attrs \\ %{}) do
     {:ok, place} =
       attrs
-      |> Enum.into(%{
-        city: "some city",
-        description: "some description",
-        label: "some label",
-        x: "some x",
-        y: "some y"
-      })
+      |> place_attrs()
       |> Svoenix.Places.create_place()
 
     place

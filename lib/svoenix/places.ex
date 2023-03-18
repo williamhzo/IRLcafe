@@ -37,6 +37,8 @@ defmodule Svoenix.Places do
   """
   def get_place!(id), do: Repo.get!(Place, id)
 
+  def get_place_by_slug!(slug), do: Repo.get_by!(Place, slug: slug)
+
   @doc """
   Creates a place.
 

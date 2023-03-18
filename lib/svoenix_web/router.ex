@@ -105,5 +105,6 @@ defmodule SvoenixWeb.Router do
     # NOTE: Please keep at the end of the router,
     #       because looks like a catch-all route.
     live "/:city_slug", AppLive, :index
+    live "/:city_slug/:place_slug", PlaceLive, :index
   end
 end

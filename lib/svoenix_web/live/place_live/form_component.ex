@@ -20,6 +20,7 @@ defmodule SvoenixWeb.PlaceLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:label]} type="text" label="Label" />
+        <.input field={@form[:slug]} type="text" label="Slug" />
         <.input field={@form[:x]} type="text" label="X" />
         <.input field={@form[:y]} type="text" label="Y" />
         <.input field={@form[:city]} type="text" label="City" />

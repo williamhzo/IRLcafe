@@ -20,21 +20,21 @@ defmodule Svoenix.PlacesTest do
       assert Places.get_place!(place.id) == place
     end
 
+    test "get_place_by_slug!/1 returns the place with given slug" do
+      place = place_fixture()
+      assert Places.get_place_by_slug!(place.slug) == place
+    end
+
     test "create_place/1 with valid data creates a place" do
-      valid_attrs = %{
-        city: "some city",
-        description: "some description",
-        label: "some label",
-        x: "some x",
-        y: "some y"
-      }
+      valid_attrs = place_attrs()
 
       assert {:ok, %Place{} = place} = Places.create_place(valid_attrs)
-      assert place.city == "some city"
-      assert place.description == "some description"
-      assert place.label == "some label"
-      assert place.x == "some x"
-      assert place.y == "some y"
+      assert place.city == valid_attrs.city
+      assert place.slug == valid_attrs.slug
+      assert place.label == valid_attrs.label
+      assert place.description == valid_attrs.description
+      assert place.x == valid_attrs.x
+      assert place.y == valid_attrs.y
     end
 
     test "create_place/1 with invalid data returns error changeset" do

@@ -4,13 +4,6 @@ defmodule SvoenixWeb.PlaceLiveTest do
   import Phoenix.LiveViewTest
   import Svoenix.PlacesFixtures
 
-  @create_attrs %{
-    city: "some city",
-    description: "some description",
-    label: "some label",
-    x: "some x",
-    y: "some y"
-  }
   @update_attrs %{
     city: "some updated city",
     description: "some updated description",
@@ -48,7 +41,7 @@ defmodule SvoenixWeb.PlaceLiveTest do
              |> render_change() =~ "can&#39;t be blank"
 
       assert index_live
-             |> form("#place-form", place: @create_attrs)
+             |> form("#place-form", place: place_attrs())
              |> render_submit()
 
       assert_patch(index_live, ~p"/places")

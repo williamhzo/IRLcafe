@@ -8,8 +8,11 @@ defmodule Svoenix.Places.Place do
   @foreign_key_type :binary_id
   schema "places" do
     field :city, :string
-    field :description, :string
+
+    field :slug, :string
     field :label, :string
+    field :description, :string
+
     field :x, :string
     field :y, :string
 
@@ -21,7 +24,7 @@ defmodule Svoenix.Places.Place do
   @doc false
   def changeset(place, attrs) do
     place
-    |> cast(attrs, [:label, :x, :y, :city, :description])
-    |> validate_required([:label, :x, :y, :city, :description])
+    |> cast(attrs, [:city, :slug, :label, :description, :x, :y])
+    |> validate_required([:city, :slug, :label, :description, :x, :y])
   end
 end

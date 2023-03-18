@@ -36,6 +36,7 @@ defmodule Svoenix.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:tailwind_formatter, "~> 0.3.5", only: :dev, runtime: false},
       {:plug_canonical_host, "~> 2.0"},
       {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7.1"},

@@ -1,7 +1,7 @@
 <.header>
   Listing Places
   <:actions>
-    <.link patch={~p"/places/new"}>
+    <.link patch={~p"/lisbon/places/new"}>
       <.button>New Place</.button>
     </.link>
   </:actions>
@@ -15,7 +15,7 @@
   <:col :let={{_id, place}} label="Label"><%= place.label %></:col>
   <:col :let={{_id, place}} label="X"><%= place.x %></:col>
   <:col :let={{_id, place}} label="Y"><%= place.y %></:col>
-  <:col :let={{_id, place}} label="City"><%= place.city %></:col>
+  <:col :let={{_id, place}} label="City"><%= place.city.name %></:col>
   <:col :let={{_id, place}} label="Description"><%= place.description %></:col>
   <:action :let={{_id, place}}>
     <div class="sr-only">
@@ -44,6 +44,7 @@
     id={@place.id || :new}
     title={@page_title}
     action={@live_action}
+    city_id={if @city, do: @city.id, else: nil}
     place={@place}
     patch={~p"/places"}
   />

@@ -18,7 +18,9 @@ defmodule Svoenix.Places do
 
   """
   def list_places do
-    Repo.all(Place)
+    Place
+    |> Repo.all()
+    |> Repo.preload(:city)
   end
 
   @doc """
@@ -35,9 +37,17 @@ defmodule Svoenix.Places do
       ** (Ecto.NoResultsError)
 
   """
-  def get_place!(id), do: Repo.get!(Place, id)
+  def get_place!(id) do
+    Place
+    |> Repo.get!(id)
+    |> Repo.preload(:city)
+  end
 
-  def get_place_by_slug!(slug), do: Repo.get_by!(Place, slug: slug)
+  def get_place_by_slug!(slug) do
+    Place
+    |> Repo.get_by!(slug: slug)
+    |> Repo.preload(:city)
+  end
 
   @doc """
   Creates a place.

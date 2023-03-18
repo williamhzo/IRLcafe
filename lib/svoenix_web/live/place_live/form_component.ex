@@ -1,6 +1,7 @@
 defmodule SvoenixWeb.PlaceLive.FormComponent do
   use SvoenixWeb, :live_component
 
+  alias Svoenix.Repo
   alias Svoenix.Places
 
   @impl true
@@ -23,7 +24,6 @@ defmodule SvoenixWeb.PlaceLive.FormComponent do
         <.input field={@form[:slug]} type="text" label="Slug" />
         <.input field={@form[:x]} type="text" label="X" />
         <.input field={@form[:y]} type="text" label="Y" />
-        <.input field={@form[:city]} type="text" label="City" />
         <.input field={@form[:description]} type="text" label="Description" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Place</.button>
@@ -45,6 +45,9 @@ defmodule SvoenixWeb.PlaceLive.FormComponent do
 
   @impl true
   def handle_event("validate", %{"place" => place_params}, socket) do
+    # place_params =
+    #   Map.put(place_params, "city_id", socket.assigns.city_id || socket.assigns.place.city.id)
+
     changeset =
       socket.assigns.place
       |> Places.change_place(place_params)
@@ -73,9 +76,11 @@ defmodule SvoenixWeb.PlaceLive.FormComponent do
   end
 
   defp save_place(socket, :new, place_params) do
-    case Places.create_place(place_params) do
+    case place_params
+         |> Map.put("city_id", socket.assigns.city_id)
+         |> Places.create_place() do
       {:ok, place} ->
-        notify_parent({:saved, place})
+        notify_parent({:saved, Repo.preload(place, :city)})
 
         {:noreply,
          socket

@@ -2,11 +2,15 @@ defmodule Svoenix.Cities.City do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Svoenix.Places.Place
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "cities" do
     field :name, :string
     field :slug, :string
+
+    has_many :places, Place
 
     timestamps()
   end

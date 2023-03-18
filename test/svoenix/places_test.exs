@@ -29,7 +29,7 @@ defmodule Svoenix.PlacesTest do
       valid_attrs = place_attrs()
 
       assert {:ok, %Place{} = place} = Places.create_place(valid_attrs)
-      assert place.city == valid_attrs.city
+      assert place.city_id == valid_attrs.city_id
       assert place.slug == valid_attrs.slug
       assert place.label == valid_attrs.label
       assert place.description == valid_attrs.description
@@ -45,7 +45,7 @@ defmodule Svoenix.PlacesTest do
       place = place_fixture()
 
       update_attrs = %{
-        city: "some updated city",
+        # city: "some updated city",
         description: "some updated description",
         label: "some updated label",
         x: "some updated x",
@@ -53,7 +53,7 @@ defmodule Svoenix.PlacesTest do
       }
 
       assert {:ok, %Place{} = place} = Places.update_place(place, update_attrs)
-      assert place.city == "some updated city"
+      # assert place.city == "some updated city"
       assert place.description == "some updated description"
       assert place.label == "some updated label"
       assert place.x == "some updated x"

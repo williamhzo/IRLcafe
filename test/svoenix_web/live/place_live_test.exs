@@ -3,15 +3,20 @@ defmodule SvoenixWeb.PlaceLiveTest do
 
   import Phoenix.LiveViewTest
   import Svoenix.PlacesFixtures
+  import Svoenix.CitiesFixtures, only: [city_fixture: 1]
 
   @update_attrs %{
-    city: "some updated city",
-    description: "some updated description",
     label: "some updated label",
+    description: "some updated description",
     x: "some updated x",
     y: "some updated y"
   }
-  @invalid_attrs %{city: nil, description: nil, label: nil, x: nil, y: nil}
+  @invalid_attrs %{
+    label: nil,
+    description: nil,
+    x: nil,
+    y: nil
+  }
 
   defp create_place(_) do
     place = place_fixture()
@@ -25,30 +30,33 @@ defmodule SvoenixWeb.PlaceLiveTest do
       {:ok, _index_live, html} = live(conn, ~p"/places")
 
       assert html =~ "Listing Places"
-      assert html =~ place.city
+      assert html =~ place.city.name
     end
 
     test "saves new place", %{conn: conn} do
+      # insert 'lisbon' city in db
+      _lisbon = city_fixture(%{name: "Lisbon", slug: "lisbon"})
+
       {:ok, index_live, _html} = live(conn, ~p"/places")
 
       assert index_live |> element("a", "New Place") |> render_click() =~
                "New Place"
 
-      assert_patch(index_live, ~p"/places/new")
+      assert_patch(index_live, ~p"/lisbon/places/new")
 
       assert index_live
              |> form("#place-form", place: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
       assert index_live
-             |> form("#place-form", place: place_attrs())
+             |> form("#place-form", place: place_attrs() |> Map.drop([:city_id]))
              |> render_submit()
 
       assert_patch(index_live, ~p"/places")
 
       html = render(index_live)
       assert html =~ "Place created successfully"
-      assert html =~ "some city"
+      # assert html =~ "some city"
     end
 
     test "updates place in listing", %{conn: conn, place: place} do
@@ -71,7 +79,7 @@ defmodule SvoenixWeb.PlaceLiveTest do
 
       html = render(index_live)
       assert html =~ "Place updated successfully"
-      assert html =~ "some updated city"
+      assert html =~ "some updated description"
     end
 
     test "deletes place in listing", %{conn: conn, place: place} do
@@ -89,7 +97,7 @@ defmodule SvoenixWeb.PlaceLiveTest do
       {:ok, _show_live, html} = live(conn, ~p"/places/#{place}")
 
       assert html =~ "Show Place"
-      assert html =~ place.city
+      assert html =~ place.city.name
     end
 
     test "updates place within modal", %{conn: conn, place: place} do
@@ -112,7 +120,7 @@ defmodule SvoenixWeb.PlaceLiveTest do
 
       html = render(show_live)
       assert html =~ "Place updated successfully"
-      assert html =~ "some updated city"
+      assert html =~ "some updated description"
     end
   end
 end

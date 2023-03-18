@@ -25,7 +25,7 @@ defmodule SvoenixWeb.Router do
     live "/test", TestLive, :index
 
     live "/places", PlaceLive.Index, :index
-    live "/places/new", PlaceLive.Index, :new
+    # live "/places/new", PlaceLive.Index, :new
     live "/places/:id/edit", PlaceLive.Index, :edit
     live "/places/:id", PlaceLive.Show, :show
     live "/places/:id/show/edit", PlaceLive.Show, :edit
@@ -105,6 +105,9 @@ defmodule SvoenixWeb.Router do
     # NOTE: Please keep at the end of the router,
     #       because looks like a catch-all route.
     live "/:city_slug", AppLive, :index
+
+    live "/:city_slug/places/new", PlaceLive.Index, :new
+
     live "/:city_slug/:place_slug", PlaceLive, :index
   end
 end

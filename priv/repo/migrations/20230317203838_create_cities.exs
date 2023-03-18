@@ -12,5 +12,9 @@ defmodule Svoenix.Repo.Migrations.CreateCities do
 
     create unique_index(:cities, [:name])
     create unique_index(:cities, [:slug])
+
+    alter table(:places) do
+      add :city_id, references(:cities, on_delete: :nothing, type: :binary_id)
+    end
   end
 end

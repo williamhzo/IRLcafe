@@ -2,12 +2,13 @@ defmodule Svoenix.Places.Place do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Svoenix.Cities.City
   alias Svoenix.Bookings.Booking
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "places" do
-    field :city, :string
+    belongs_to :city, City
 
     field :slug, :string
     field :label, :string
@@ -24,7 +25,7 @@ defmodule Svoenix.Places.Place do
   @doc false
   def changeset(place, attrs) do
     place
-    |> cast(attrs, [:city, :slug, :label, :description, :x, :y])
-    |> validate_required([:city, :slug, :label, :description, :x, :y])
+    |> cast(attrs, [:city_id, :slug, :label, :description, :x, :y])
+    |> validate_required([:city_id, :slug, :label, :description, :x, :y])
   end
 end

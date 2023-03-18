@@ -18,6 +18,7 @@
     "elixir": "html",
     "phoenix-heex": "html"
   },
+  "tailwindCSS.experimental.classRegex": ["class:\\s*\"([^\"]*)\""],
   "[elixir]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "JakeBecker.elixir-ls"

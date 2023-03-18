@@ -6,12 +6,12 @@ defmodule SvoenixWeb.AppLive do
 
   def render(assigns) do
     ~H"""
-    <section class="container flex flex-col items-center gap-5 py-8 md:gap-12 md:py-16">
+    <section class="flex flex-col items-center gap-5 py-8 md:gap-12 md:py-16 md:px-8">
       <div class="w-full flex flex-col items-start max-w-[min(100%,60rem)]">
         <ul class="first:pl-[10%] scrollbar-none flex w-full snap-x snap-mandatory items-start gap-2 overflow-x-scroll">
           <li
             :for={place <- @places}
-            class="rounded-base relative grid grid-rows-[auto,1fr,auto] border p-3 xs:p-4 sm:p-5 border-gray-100 h-full w-[90%] shrink-0 bg-gray-50 snap-center gap-4"
+            class="rounded-base relative grid grid-rows-[auto,1fr,auto] border p-3 xs:p-4 sm:p-5 border-gray-100 h-full w-[90%] shrink-0 bg-gray-50/75 snap-center gap-4"
           >
             <div class="items-items flex justify-between">
               <h3 class="text-xl font-bold md:text-lg"><%= place.label %></h3>

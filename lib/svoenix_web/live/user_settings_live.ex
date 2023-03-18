@@ -5,62 +5,84 @@ defmodule SvoenixWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.header>Change Email</.header>
+    <div class="mx-auto my-12 flex flex-wrap items-stretch justify-center gap-24">
+      <.card class="flex-1">
+        <.header>Change Email</.header>
 
-    <.simple_form
-      for={@email_form}
-      id="email_form"
-      phx-submit="update_email"
-      phx-change="validate_email"
-    >
-      <.input field={@email_form[:email]} type="email" label="Email" required />
-      <.input
-        field={@email_form[:current_password]}
-        name="current_password"
-        id="current_password_for_email"
-        type="password"
-        label="Current password"
-        value={@email_form_current_password}
-        required
-      />
-      <:actions>
-        <.button phx-disable-with="Changing...">Change Email</.button>
-      </:actions>
-    </.simple_form>
+        <.simple_form
+          for={@email_form}
+          id="email_form"
+          phx-submit="update_email"
+          phx-change="validate_email"
+        >
+          <.input field={@email_form[:email]} type="email" label="Email" required />
+          <.input
+            field={@email_form[:current_password]}
+            name="current_password"
+            id="current_password_for_email"
+            type="password"
+            label="Current password"
+            value={@email_form_current_password}
+            required
+          />
+          <:actions>
+            <.button phx-disable-with="Changing...">Change Email</.button>
+          </:actions>
+        </.simple_form>
+      </.card>
 
-    <.header>Change Password</.header>
+      <.card class="flex-1">
+        <.header>Change Password</.header>
 
-    <.simple_form
-      for={@password_form}
-      id="password_form"
-      action={~p"/log_in?_action=password_updated"}
-      method="post"
-      phx-change="validate_password"
-      phx-submit="update_password"
-      phx-trigger-action={@trigger_submit}
-    >
-      <.input field={@password_form[:email]} type="hidden" value={@current_email} />
-      <.input field={@password_form[:password]} type="password" label="New password" required />
-      <.input
-        field={@password_form[:password_confirmation]}
-        type="password"
-        label="Confirm new password"
-      />
-      <.input
-        field={@password_form[:current_password]}
-        name="current_password"
-        type="password"
-        label="Current password"
-        id="current_password_for_password"
-        value={@current_password}
-        required
-      />
-      <:actions>
-        <.button phx-disable-with="Changing...">Change Password</.button>
-      </:actions>
-    </.simple_form>
+        <.simple_form
+          for={@password_form}
+          id="password_form"
+          action={~p"/log_in?_action=password_updated"}
+          method="post"
+          phx-change="validate_password"
+          phx-submit="update_password"
+          phx-trigger-action={@trigger_submit}
+        >
+          <.input field={@password_form[:email]} type="hidden" value={@current_email} />
+          <.input field={@password_form[:password]} type="password" label="New password" required />
+          <.input
+            field={@password_form[:password_confirmation]}
+            type="password"
+            label="Confirm new password"
+          />
+          <.input
+            field={@password_form[:current_password]}
+            name="current_password"
+            type="password"
+            label="Current password"
+            id="current_password_for_password"
+            value={@current_password}
+            required
+          />
+          <:actions>
+            <.button phx-disable-with="Changing...">Change Password</.button>
+          </:actions>
+        </.simple_form>
+      </.card>
+    </div>
     """
   end
+
+  ### Components
+
+  attr :class, :string, default: nil
+
+  slot :inner_block, required: true
+
+  def card(assigns) do
+    ~H"""
+    <div class={["max-w-md rounded-xl bg-white p-5 border border-gray-200", @class]}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  ### Server
 
   def mount(%{"token" => token}, _session, socket) do
     socket =

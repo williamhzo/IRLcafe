@@ -33,7 +33,7 @@ defmodule SvoenixWeb.AppLive do
 
             <img
               src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max"
-              class="w-full rounded-sm object-contain"
+              class="w-full rounded-lg object-contain"
             />
 
             <p class="text-muted text-center">420m from your location</p>

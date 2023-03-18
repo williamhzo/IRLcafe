@@ -6,7 +6,7 @@ defmodule SvoenixWeb.AppLive do
 
   def render(assigns) do
     ~H"""
-    <section class="container flex flex-col items-center gap-12 px-4 py-12">
+    <section class="container flex max-w-lg flex-col items-center gap-12 px-4 py-12">
       <h1 class="text-brand self-start text-lg font-bold uppercase tracking-tight">
         <%= @city.name %> 🇵🇹
       </h1>

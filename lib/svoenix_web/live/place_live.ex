@@ -7,7 +7,8 @@ defmodule SvoenixWeb.PlaceLive do
   def render(assigns) do
     ~H"""
     <section class="flex flex-col items-center gap-5 py-8 md:gap-12 md:py-16 md:px-8">
-      Coucou
+      <p><%= @place.label %></p>
+      <p><%= @place.description %></p>
     </section>
     """
   end

@@ -18,6 +18,14 @@ defmodule Svoenix.Release do
     {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
   end
 
+  def seed do
+    :code.priv_dir(:svoenix)
+    |> Path.join(["repo/seeds.exs"])
+    |> Code.eval_file()
+  end
+
+  ### Helpers
+
   defp repos do
     Application.fetch_env!(@app, :ecto_repos)
   end

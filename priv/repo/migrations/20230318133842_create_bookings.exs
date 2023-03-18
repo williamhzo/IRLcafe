@@ -5,8 +5,8 @@ defmodule Svoenix.Repo.Migrations.CreateBookings do
     create table(:bookings, primary_key: false) do
       add :id, :binary_id, primary_key: true
 
-      add :user, references(:users, on_delete: :nothing, type: :binary_id)
-      add :place, references(:places, on_delete: :nothing, type: :binary_id)
+      add :user_id, references(:users, on_delete: :nothing, type: :binary_id)
+      add :place_id, references(:places, on_delete: :nothing, type: :binary_id)
 
       add :date, :date, null: false
       add :slot, :string, null: false
@@ -14,10 +14,10 @@ defmodule Svoenix.Repo.Migrations.CreateBookings do
       timestamps()
     end
 
-    create index(:bookings, [:user])
-    create index(:bookings, [:place])
+    create index(:bookings, [:user_id])
+    create index(:bookings, [:place_id])
     create index(:bookings, [:date, :slot])
 
-    create unique_index(:bookings, [:user, :place, :date, :slot])
+    create unique_index(:bookings, [:user_id, :place_id, :date, :slot])
   end
 end

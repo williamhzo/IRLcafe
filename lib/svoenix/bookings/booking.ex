@@ -2,11 +2,14 @@ defmodule Svoenix.Bookings.Booking do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Svoenix.Places.Place
+  alias Svoenix.Accounts.User
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "bookings" do
-    field :user, :binary_id
-    field :place, :binary_id
+    belongs_to :user, User
+    belongs_to :place, Place
 
     field :date, :date
     field :slot, Ecto.Enum, values: [:morning, :lunch, :afternoon, :afterwork]

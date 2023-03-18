@@ -11,7 +11,10 @@ defmodule SvoenixWeb.Layouts do
       <.flash_group flash={@flash} />
 
       <SvoenixWeb.Header.render city={@city} />
-      <%= @inner_content %>
+
+      <div class="max-w-2xl mx-auto py-8 md:py-16">
+        <%= @inner_content %>
+      </div>
     </main>
     """
   end

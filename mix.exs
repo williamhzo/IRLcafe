@@ -68,9 +68,10 @@ defmodule Svoenix.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      reset: ["clean", "setup", "ci"],
+      setup: ["install", "ecto.setup"],
+      reset: ["clean", "install", "ecto.reset", "ci"],
+      install: ["deps.get", "cmd --cd assets npm install"],
       clean: "cmd rm -rf _build deps cover priv/static/assets .elixir_ls assets/node_modules",
-      setup: ["deps.get", "ecto.setup", "cmd --cd assets npm install"],
       ci: [
         "format",
         "cmd MIX_ENV=dev  mix compile --all-warnings --warnings-as-errors",

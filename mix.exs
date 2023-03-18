@@ -68,7 +68,15 @@ defmodule Svoenix.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
+      reset: ["clean", "setup", "ci"],
+      clean: "cmd rm -rf _build deps cover priv/static/assets .elixir_ls assets/node_modules",
       setup: ["deps.get", "ecto.setup", "cmd --cd assets npm install"],
+      ci: [
+        "format",
+        "cmd MIX_ENV=dev  mix compile --all-warnings --warnings-as-errors",
+        "cmd MIX_ENV=test mix compile --all-warnings --warnings-as-errors",
+        "cmd MIX_ENV=test mix test"
+      ],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
@@ -78,17 +86,6 @@ defmodule Svoenix.MixProject do
         "tailwind default --minify",
         "cmd --cd assets node build.js --deploy",
         "phx.digest"
-      ],
-      ci: [
-        "format",
-        "cmd MIX_ENV=dev  mix compile --all-warnings --warnings-as-errors",
-        "cmd MIX_ENV=test mix compile --all-warnings --warnings-as-errors",
-        "cmd MIX_ENV=test mix test"
-      ],
-      reset: [
-        "cmd rm -rf _build deps cover priv/static/assets .elixir_ls assets/node_modules",
-        "setup",
-        "ci"
       ]
     ]
   end

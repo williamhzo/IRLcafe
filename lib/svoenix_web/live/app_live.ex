@@ -7,7 +7,9 @@ defmodule SvoenixWeb.AppLive do
   def render(assigns) do
     ~H"""
     <section class="container flex items-center flex-col gap-12 py-12 px-4">
-      <h1 class="text-brand uppercase font-bold tracking-tight text-lg self-start"><%= @city.name %> 🇵🇹</h1>
+      <h1 class="text-brand uppercase font-bold tracking-tight text-lg self-start">
+        <%= @city.name %> 🇵🇹
+      </h1>
 
       <div class="flex flex-col items-start ">
         <ul class="flex gap-2 snap-x snap-mandatory overflow-x-scroll scrollbar-none">
@@ -24,12 +26,10 @@ defmodule SvoenixWeb.AppLive do
               </span>
             </div>
 
-
-              <div>
-                <p class="prose"><%= place.description %></p>
-                  <small class="text-muted text-base">John and 7 others are meeting there</small>
-              </div>
-
+            <div>
+              <p class="prose"><%= place.description %></p>
+              <small class="text-muted text-base">John and 7 others are meeting there</small>
+            </div>
 
             <img
               src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max"

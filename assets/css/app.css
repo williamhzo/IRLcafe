@@ -7,4 +7,12 @@ body {
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* This file is for your main application CSS */
+@layer base {
+  html {
+    /* Deactivate blue background on touch on Android Chrome */
+    -webkit-tap-highlight-color: transparent;
+
+    /* Color selected text properly */
+    @apply selection:bg-emerald-200;
+  }
+}

@@ -13,6 +13,7 @@ defmodule Svoenix.Places.Place do
     field :slug, :string
     field :label, :string
     field :description, :string
+    field :img_url, :string
 
     field :x, :string
     field :y, :string
@@ -25,7 +26,7 @@ defmodule Svoenix.Places.Place do
   @doc false
   def changeset(place, attrs) do
     place
-    |> cast(attrs, [:city_id, :slug, :label, :description, :x, :y])
+    |> cast(attrs, [:city_id, :slug, :label, :description, :img_url, :x, :y])
     |> validate_required([:city_id, :slug, :label, :description, :x, :y])
   end
 end

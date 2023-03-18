@@ -27,6 +27,8 @@ case Enum.map(
           slug: "lisbon-cafe",
           label: "Lisbon Cafe",
           description: "The best place in town",
+          img_url:
+            "https://images.unsplash.com/photo-1509870449717-5609536a5393?ixid=Mnw0MjQxMjF8MHwxfHNlYXJjaHwzfHxsaXNib24lMjBjYWZlfGVufDB8fHx8MTY3OTE3MTIzMg&ixlib=rb-4.0.3",
           x: "34.9899",
           y: "23.9899"
         },
@@ -35,6 +37,8 @@ case Enum.map(
           slug: "lisbon-bar",
           label: "Lisbon Bar",
           description: "The best place in town",
+          img_url:
+            "https://images.unsplash.com/photo-1619834092768-9ee9d433d8b1?ixid=Mnw0MjQxMjF8MHwxfHNlYXJjaHwxfHxsaXNib24lMjBiYXJ8ZW58MHx8fHwxNjc5MTcxMjY5&ixlib=rb-4.0.3",
           x: "34.9899",
           y: "23.9899"
         },
@@ -43,6 +47,8 @@ case Enum.map(
           slug: "lisbon-restaurant",
           label: "Lisbon Restaurant",
           description: "The best place in town",
+          img_url:
+            "https://images.unsplash.com/photo-1584346133934-a3afd2a33c4c?ixid=Mnw0MjQxMjF8MHwxfHNlYXJjaHwxMHx8bGlzYm9uJTIwcmVzdGF1cmFudHxlbnwwfHx8fDE2NzkxNzEyOTg&ixlib=rb-4.0.3",
           x: "34.9899",
           y: "23.9899"
         },
@@ -51,6 +57,8 @@ case Enum.map(
           slug: "paris-cafe",
           label: "Paris Cafe",
           description: "The best place in town",
+          img_url:
+            "https://images.unsplash.com/photo-1509870449717-5609536a5393?ixid=Mnw0MjQxMjF8MHwxfHNlYXJjaHwzfHxsaXNib24lMjBjYWZlfGVufDB8fHx8MTY3OTE3MTIzMg&ixlib=rb-4.0.3",
           x: "34.9899",
           y: "23.9899"
         },
@@ -59,6 +67,8 @@ case Enum.map(
           slug: "paris-bar",
           label: "Paris Bar",
           description: "The best place in town",
+          img_url:
+            "https://images.unsplash.com/photo-1619834092768-9ee9d433d8b1?ixid=Mnw0MjQxMjF8MHwxfHNlYXJjaHwxfHxsaXNib24lMjBiYXJ8ZW58MHx8fHwxNjc5MTcxMjY5&ixlib=rb-4.0.3",
           x: "34.9899",
           y: "23.9899"
         },
@@ -67,6 +77,8 @@ case Enum.map(
           slug: "paris-restaurant",
           label: "Paris Restaurant",
           description: "The best place in town",
+          img_url:
+            "https://images.unsplash.com/photo-1619834092768-9ee9d433d8b1?ixid=Mnw0MjQxMjF8MHwxfHNlYXJjaHwxfHxsaXNib24lMjBiYXJ8ZW58MHx8fHwxNjc5MTcxMjY5&ixlib=rb-4.0.3",
           x: "34.9899",
           y: "23.9899"
         },
@@ -75,6 +87,8 @@ case Enum.map(
           slug: "london-cafe",
           label: "London Cafe",
           description: "The best place in town",
+          img_url:
+            "https://images.unsplash.com/photo-1584346133934-a3afd2a33c4c?ixid=Mnw0MjQxMjF8MHwxfHNlYXJjaHwxMHx8bGlzYm9uJTIwcmVzdGF1cmFudHxlbnwwfHx8fDE2NzkxNzEyOTg&ixlib=rb-4.0.3",
           x: "34.9899",
           y: "23.9899"
         },
@@ -83,6 +97,8 @@ case Enum.map(
           slug: "london-bar",
           label: "London Bar",
           description: "The best place in town",
+          img_url:
+            "https://images.unsplash.com/photo-1619834092768-9ee9d433d8b1?ixid=Mnw0MjQxMjF8MHwxfHNlYXJjaHwxfHxsaXNib24lMjBiYXJ8ZW58MHx8fHwxNjc5MTcxMjY5&ixlib=rb-4.0.3",
           x: "34.9899",
           y: "23.9899"
         },
@@ -91,6 +107,8 @@ case Enum.map(
           slug: "london-restaurant",
           label: "London Restaurant",
           description: "The best place in town",
+          img_url:
+            "https://images.unsplash.com/photo-1584346133934-a3afd2a33c4c?ixid=Mnw0MjQxMjF8MHwxfHNlYXJjaHwxMHx8bGlzYm9uJTIwcmVzdGF1cmFudHxlbnwwfHx8fDE2NzkxNzEyOTg&ixlib=rb-4.0.3",
           x: "34.9899",
           y: "23.9899"
         }

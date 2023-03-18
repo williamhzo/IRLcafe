@@ -1,0 +1,32 @@
+# Scrap Google Maps coffees
+
+```elixir
+Mix.install([
+  {:req, "~> 0.3.6"},
+  {:kino, "~> 0.9.0"},
+  {:floki, "~> 0.34.2"}
+])
+```
+
+## Section
+
+```elixir
+urls =
+  "https://www.google.pt/maps/place/Tati/@38.7314144,-9.1293851,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipPzBdyB2gElGKefgo-oHunmlaJarAgtbR4aHp3q!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipPzBdyB2gElGKefgo-oHunmlaJarAgtbR4aHp3q%3Dw129-h86-k-no!7i3000!8i2000!4m6!3m5!1s0xd193364223cf07f:0xe963b79b90dd5500!8m2!3d38.7314353!4d-9.1294763!16s%2Fg%2F11jxtfr919"
+  |> Req.get!()
+  |> Map.fetch!(:body)
+  |> Floki.parse_document!()
+  |> Floki.find("meta")
+  |> Floki.attribute("content")
+  |> Enum.filter(&String.starts_with?(&1, "https://"))
+  |> Enum.uniq()
+```
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+urls
+|> Enum.map(&Req.get!(&1).body)
+|> Enum.map(&Kino.Image.new(&1, :jpg))
+|> Enum.map(&Kino.render/1)
+```

@@ -6,15 +6,8 @@ defmodule SvoenixWeb.AppLive do
 
   def render(assigns) do
     ~H"""
-    <section class="container flex flex-col items-center gap-5 py-4 md:gap-12 md:py-8">
-      <header class="flex flex-col items-center">
-        <p class="text-muted">current city</p>
-        <h1 class="text-brand text-xl font-bold uppercase tracking-tight">
-          <%= @city.name %>
-        </h1>
-      </header>
-
-      <div class="flex w-full flex-col items-start max-w-[min(100%,60rem)]">
+    <section class="container flex flex-col items-center gap-5 py-8 md:gap-12 md:py-16">
+      <div class="w-full flex flex-col items-start max-w-[min(100%,60rem)]">
         <ul class="first:pl-[10%] scrollbar-none flex w-full snap-x snap-mandatory items-start gap-2 overflow-x-scroll">
           <li
             :for={place <- @places}

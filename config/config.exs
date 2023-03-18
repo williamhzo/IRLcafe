@@ -7,6 +7,8 @@
 # General application configuration
 import Config
 
+config :svoenix, :generators, binary_id: true
+
 config :svoenix,
   ecto_repos: [Svoenix.Repo]
 

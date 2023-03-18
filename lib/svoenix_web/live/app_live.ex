@@ -6,7 +6,7 @@ defmodule SvoenixWeb.AppLive do
 
   def render(assigns) do
     ~H"""
-    <section class="container flex max-w-lg flex-col items-center gap-12 px-4 py-12">
+    <section class="container flex max-w-lg flex-col items-center gap-5 px-4 py-4 md:gap-12 md:py-8">
       <header class="flex flex-col items-center">
         <p class="text-muted">current city</p>
         <h1 class="text-brand text-xl font-bold uppercase tracking-tight">
@@ -18,10 +18,10 @@ defmodule SvoenixWeb.AppLive do
         <ul class="scrollbar-none flex snap-x snap-mandatory gap-2 overflow-x-scroll">
           <li
             :for={place <- @places}
-            class="rounded-base relative grid grid-rows-[auto,1fr,auto] border p-5 border-gray-200 h-full w-full shrink-0 bg-white snap-start gap-4"
+            class="rounded-base relative grid grid-rows-[auto,1fr,auto] border p-5 border-gray-200 h-full w-full shrink-0 bg-gray-50 snap-start gap-4"
           >
             <div class="items-items flex justify-between">
-              <h2 class="text-xl font-bold md:text-lg"><%= place.label %></h2>
+              <h3 class="text-xl font-bold md:text-lg"><%= place.label %></h3>
 
               <span class="relative flex h-3 w-3 shrink-0">
                 <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />

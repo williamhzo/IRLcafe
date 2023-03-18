@@ -21,13 +21,17 @@ module.exports = {
         brand: colors.gray[900],
         primary: colors.gray,
         background: {
-          DEFAULT: colors.gray[50],
+          // DEFAULT: colors.gray[50],
+          DEFAULT: "hsl(0, 0%, 100%)",
         },
         muted: colors.gray[500],
       },
       borderRadius: {
         base: "0.75rem"
       },
+      width: {
+        "main-content": "min(100%, 1200px)"
+      }
     },
     typography: {
       DEFAULT: {

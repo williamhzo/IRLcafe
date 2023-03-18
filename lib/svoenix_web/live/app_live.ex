@@ -6,23 +6,23 @@ defmodule SvoenixWeb.AppLive do
 
   def render(assigns) do
     ~H"""
-    <section class="container flex items-center flex-col gap-12 py-12 px-4">
-      <h1 class="text-brand uppercase font-bold tracking-tight text-lg self-start">
+    <section class="container flex flex-col items-center gap-12 px-4 py-12">
+      <h1 class="text-brand self-start text-lg font-bold uppercase tracking-tight">
         <%= @city.name %> 🇵🇹
       </h1>
 
-      <div class="flex flex-col items-start ">
-        <ul class="flex gap-2 snap-x snap-mandatory overflow-x-scroll scrollbar-none">
+      <div class="flex flex-col items-start">
+        <ul class="scrollbar-none flex snap-x snap-mandatory gap-2 overflow-x-scroll">
           <li
             :for={place <- @places}
             class="rounded-base relative grid grid-rows-[auto,1fr,auto] border p-5 border-gray-200 h-full w-full shrink-0 bg-white snap-start gap-4"
           >
-            <div class="flex justify-between items-items">
-              <h2 class="text-xl md:text-lg font-bold"><%= place.label %></h2>
+            <div class="items-items flex justify-between">
+              <h2 class="text-xl font-bold md:text-lg"><%= place.label %></h2>
 
-              <span class="relative shrink-0 flex h-3 w-3">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
+              <span class="relative flex h-3 w-3 shrink-0">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                <span class="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
               </span>
             </div>
 
@@ -33,7 +33,7 @@ defmodule SvoenixWeb.AppLive do
 
             <img
               src="https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max"
-              class="object-contain w-full rounded-sm"
+              class="w-full rounded-sm object-contain"
             />
 
             <p class="text-muted text-center">420m from your location</p>

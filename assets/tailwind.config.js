@@ -31,6 +31,9 @@ module.exports = {
       },
       width: {
         "main-content": "min(100%, 1200px)"
+      },
+      screens: {
+        xs: "375px",
       }
     },
     typography: {
@@ -42,7 +45,7 @@ module.exports = {
       },
     container: {
       center: true,
-    }
+    },
   },
   plugins: [
     require("@tailwindcss/forms"),

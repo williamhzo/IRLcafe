@@ -2,8 +2,8 @@
   import Slot from './Slot.svelte';
   import { formatDate } from '../utils/dates.utils';
 
+  export let place_id;
   export let request;
-  // export let place;
 
   let selected_bookings = [];
 
@@ -27,13 +27,18 @@
   const tomorrow_bookings = bookings.filter(({ date }) => date === tomorrow);
 
   function submit_bookings() {
-    if (selected_bookings.length > 0)
-      request('submit_bookings', { slots: selected_bookings }, () => {});
+    if (selected_bookings.length > 0) {
+      request(
+        'submit_bookings',
+        { slots: selected_bookings, place_id },
+        () => {}
+      );
+    }
   }
 </script>
 
 <section
-  class="flex rounded-base flex-col gap-4 items-start p-5 absolute inset-0 z-10 bg-background/90 backdrop-blur-md"
+  class="flex rounded-base flex-col gap-4 items-start p-5 absolute inset-0 z-10 bg-background/75 backdrop-blur-lg"
 >
   <div class="flex flex-col items-start">
     <h2 class="text-xl font-bold">when do you feel like going?</h2>

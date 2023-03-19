@@ -10,6 +10,28 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+alias Svoenix.Repo
+alias Svoenix.Accounts.User
+alias Svoenix.Cities
+alias Svoenix.Places
+
+# insert users
+Repo.insert(
+  %User{
+    email: "basile@irl.cafe",
+    hashed_password: Bcrypt.hash_pwd_salt("hellohellohello")
+  },
+  on_conflict: :nothing
+)
+
+Repo.insert(
+  %User{
+    email: "william@irl.cafe",
+    hashed_password: Bcrypt.hash_pwd_salt("hellohellohello")
+  },
+  on_conflict: :nothing
+)
+
 # insert cities "Lisbon", "Paris" and "London" as database seeds
 case Enum.map(
        [
@@ -17,7 +39,7 @@ case Enum.map(
          %{name: "Paris", slug: "paris"},
          %{name: "London", slug: "london"}
        ],
-       &Svoenix.Cities.create_city/1
+       &Cities.create_city/1
      ) do
   [{:ok, lisbon}, {:ok, paris}, {:ok, london}] ->
     Enum.map(
@@ -113,7 +135,7 @@ case Enum.map(
           y: "23.9899"
         }
       ],
-      &Svoenix.Places.create_place/1
+      &Places.create_place/1
     )
 
   _ ->

@@ -12,7 +12,7 @@ defmodule SvoenixWeb.AppLive do
   def render(assigns) do
     ~H"""
     <section class="flex flex-col md:px-8 w-full max-w-[min(100%,60rem)]">
-      <p :for={place <- @places}><%= length place.bookings %></p>
+      <p :for={place <- @places}><%= length(place.bookings) %></p>
       <Svelte.render id="places" name="Places" props={%{places: @places}} />
     </section>
     """

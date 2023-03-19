@@ -1,9 +1,7 @@
 <script>
-  import Slots from './Slots.svelte';
+  import Slots from "./Slots.svelte";
 
   export let place;
-  $: console.log('place', place);
-
   export let hide_slots;
   export let request;
 

@@ -21,19 +21,17 @@ defmodule SvoenixWeb.Layouts do
     assigns = assign_new(assigns, :city, fn -> nil end)
 
     ~H"""
-    <div class="min-h-[100dvh] min-h-screen grid grid-rows-[1fr_auto_1fr]">
+    <div class="min-h-[100dvh] min-h-screen grid grid-cols-1 grid-rows-[auto_1fr_auto]">
+      <.flash_group flash={@flash} />
+
       <Header.render current_user={@current_user} city={@city} />
 
-      <main class="">
-        <.flash_group flash={@flash} />
-
-        <div class="max-w-2xl mx-auto py-4 md:py-8">
-          <%= @inner_content %>
-        </div>
+      <main class="py-4 md:py-8">
+        <%= @inner_content %>
       </main>
 
-      <nav class="flex flex-col justify-center">
-        <ul class="flex justify-around items-baseline">
+      <nav class="py-6 flex flex-col justify-center">
+        <ul class="flex justify-around items-baseline text-sm font-semibold">
           <li>Home</li>
           <li>My bookings</li>
           <li>My places</li>

@@ -21,15 +21,25 @@ defmodule SvoenixWeb.Layouts do
     assigns = assign_new(assigns, :city, fn -> nil end)
 
     ~H"""
-    <main class="min-h-[100dvh] min-h-screen">
-      <.flash_group flash={@flash} />
-
+    <div class="min-h-[100dvh] min-h-screen grid grid-rows-[1fr_auto_1fr]">
       <Header.render current_user={@current_user} city={@city} />
 
-      <div class="max-w-2xl mx-auto py-4 md:py-8">
-        <%= @inner_content %>
-      </div>
-    </main>
+      <main class="">
+        <.flash_group flash={@flash} />
+
+        <div class="max-w-2xl mx-auto py-4 md:py-8">
+          <%= @inner_content %>
+        </div>
+      </main>
+
+      <nav class="flex flex-col justify-center">
+        <ul class="flex justify-around items-baseline">
+          <li>Home</li>
+          <li>My bookings</li>
+          <li>My places</li>
+        </ul>
+      </nav>
+    </div>
     """
   end
 
@@ -59,7 +69,7 @@ defmodule SvoenixWeb.Layouts do
         </script>
       </head>
 
-      <body class="bg-background antialiased">
+      <body class="h-full bg-background antialiased">
         <%= @inner_content %>
       </body>
     </html>

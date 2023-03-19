@@ -27,7 +27,7 @@ defmodule Svoenix.Places do
   def list_places_of_city_slug(city_slug) do
     City
     |> Repo.get_by!(slug: city_slug)
-    |> Repo.preload(places: [:city])
+    |> Repo.preload(places: [:city, :bookings])
     |> Map.get(:places)
   end
 

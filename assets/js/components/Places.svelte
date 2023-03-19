@@ -22,7 +22,9 @@
         class="grid grid-rows-[auto,1fr,auto] gap-8 outline-transparent ring-offset-2 focus-visible:ring-brand focus-visible:ring-2"
       >
         <div class="items-items flex justify-between">
-          <h3 class="text-xl font-bold md:text-lg">{place.label}</h3>
+          <h3 class="text-xl font-bold md:text-lg">
+            {place.label}
+          </h3>
 
           <span class="relative flex h-3 w-3 shrink-0 z-20">
             <span
@@ -35,7 +37,10 @@
         </div>
 
         <div class="flex flex-col items-start">
-          <p class="prose lowercase text-start">{place.description}</p>
+          <p class="prose lowercase text-start">
+            {place.description}, ex reprehenderit nulla aute est fugiat minim
+            laborum exercitation
+          </p>
 
           <small class="text-muted text-base lowercase text-start">
             John and 7 others are meeting there

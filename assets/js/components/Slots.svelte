@@ -3,7 +3,7 @@
   import { formatDate } from '../utils/dates.utils';
 
   export let request;
-  export let place;
+  // export let place;
 
   let selected_bookings = [];
 

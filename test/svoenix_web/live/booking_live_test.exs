@@ -2,19 +2,31 @@ defmodule SvoenixWeb.BookingLiveTest do
   use SvoenixWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
-  import Svoenix.BookingsFixtures
 
-  @create_attrs %{date: "2023-03-17", slot: "morning"}
+  import Svoenix.PlacesFixtures
+  import Svoenix.BookingsFixtures
+  import Svoenix.AccountsFixtures
+
   @update_attrs %{date: "2023-03-18", slot: "afternoon"}
   @invalid_attrs %{date: nil, slot: nil}
 
-  defp create_booking(_) do
-    booking = booking_fixture()
+  defp create_user(_) do
+    user = user_fixture()
+    %{user: user}
+  end
+
+  defp create_place(_) do
+    place = place_fixture()
+    %{place: place}
+  end
+
+  defp create_booking(%{user: user, place: place}) do
+    booking = booking_fixture(user.id, place.id)
     %{booking: booking}
   end
 
   describe "Index" do
-    setup [:create_booking]
+    setup [:create_user, :create_place, :create_booking]
 
     test "lists all bookings", %{conn: conn, booking: booking} do
       {:ok, _index_live, html} = live(conn, ~p"/bookings")
@@ -23,7 +35,7 @@ defmodule SvoenixWeb.BookingLiveTest do
       assert html =~ "#{booking.slot}"
     end
 
-    test "saves new booking", %{conn: conn} do
+    test "saves new booking", %{conn: conn, user: user, place: place} do
       {:ok, index_live, _html} = live(conn, ~p"/bookings")
 
       assert index_live |> element("a", "New Booking") |> render_click() =~
@@ -36,7 +48,9 @@ defmodule SvoenixWeb.BookingLiveTest do
              |> render_change() =~ "can&#39;t be blank"
 
       assert index_live
-             |> form("#booking-form", booking: @create_attrs)
+             |> form("#booking-form",
+               booking: booking_attrs(user.id, place.id) |> Map.drop([:user_id, :place_id])
+             )
              |> render_submit()
 
       assert_patch(index_live, ~p"/bookings")
@@ -78,7 +92,7 @@ defmodule SvoenixWeb.BookingLiveTest do
   end
 
   describe "Show" do
-    setup [:create_booking]
+    setup [:create_user, :create_place, :create_booking]
 
     test "displays booking", %{conn: conn, booking: booking} do
       {:ok, _show_live, html} = live(conn, ~p"/bookings/#{booking}")

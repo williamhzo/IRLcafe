@@ -23,24 +23,6 @@ defmodule SvoenixWeb.Router do
     live "/", HomeLive, :home
 
     live "/test", TestLive, :index
-
-    live "/places", PlaceLive.Index, :index
-    # live "/places/new", PlaceLive.Index, :new
-    live "/places/:id/edit", PlaceLive.Index, :edit
-    live "/places/:id", PlaceLive.Show, :show
-    live "/places/:id/show/edit", PlaceLive.Show, :edit
-
-    live "/cities", CityLive.Index, :index
-    live "/cities/new", CityLive.Index, :new
-    live "/cities/:id/edit", CityLive.Index, :edit
-    live "/cities/:id", CityLive.Show, :show
-    live "/cities/:id/show/edit", CityLive.Show, :edit
-
-    live "/bookings", BookingLive.Index, :index
-    live "/bookings/new", BookingLive.Index, :new
-    live "/bookings/:id/edit", BookingLive.Index, :edit
-    live "/bookings/:id", BookingLive.Show, :show
-    live "/bookings/:id/show/edit", BookingLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
@@ -101,12 +83,28 @@ defmodule SvoenixWeb.Router do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
 
+      live "/places", PlaceLive.Index, :index
+      # live "/places/new", PlaceLive.Index, :new
+      live "/places/:id/edit", PlaceLive.Index, :edit
+      live "/places/:id", PlaceLive.Show, :show
+      live "/places/:id/show/edit", PlaceLive.Show, :edit
+
+      live "/cities", CityLive.Index, :index
+      live "/cities/new", CityLive.Index, :new
+      live "/cities/:id/edit", CityLive.Index, :edit
+      live "/cities/:id", CityLive.Show, :show
+      live "/cities/:id/show/edit", CityLive.Show, :edit
+
+      live "/bookings", BookingLive.Index, :index
+      live "/bookings/new", BookingLive.Index, :new
+      live "/bookings/:id/edit", BookingLive.Index, :edit
+      live "/bookings/:id", BookingLive.Show, :show
+      live "/bookings/:id/show/edit", BookingLive.Show, :edit
+
       # NOTE: Please keep at the end of the router,
       #       because looks like a catch-all route.
       live "/:city_slug", AppLive, :index
-
       live "/:city_slug/places/new", PlaceLive.Index, :new
-
       live "/:city_slug/:place_slug", PlaceLive, :index
     end
   end

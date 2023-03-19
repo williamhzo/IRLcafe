@@ -57,6 +57,7 @@ defmodule SvoenixWeb.AppLive do
           |> Map.put("user_id", socket.assigns.current_user.id)
           |> Map.put("place_id", place_id))
       )
+      # TODO: Bookings.insert_bookings(bookings)
       |> Enum.map(&Bookings.create_booking/1)
       |> Enum.map(fn
         {:ok, %Booking{} = booking} -> booking

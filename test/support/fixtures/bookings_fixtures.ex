@@ -7,15 +7,21 @@ defmodule Svoenix.BookingsFixtures do
   @doc """
   Generate a booking.
   """
-  def booking_fixture(attrs \\ %{}) do
+  def booking_fixture(user_id, place_id, attrs \\ %{}) do
     {:ok, booking} =
-      attrs
-      |> Enum.into(%{
-        date: ~D[2023-03-17],
-        slot: "morning"
-      })
+      booking_attrs(user_id, place_id, attrs)
       |> Svoenix.Bookings.create_booking()
 
     booking
+  end
+
+  def booking_attrs(user_id, place_id, attrs \\ %{}) do
+    attrs
+    |> Enum.into(%{
+      place_id: place_id,
+      user_id: user_id,
+      date: ~D[2023-03-17],
+      slot: "morning"
+    })
   end
 end

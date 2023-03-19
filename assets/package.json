@@ -2,6 +2,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
+    "date-fns": "^2.29.3",
     "esbuild": "0.16.17",
     "esbuild-svelte": "0.7.3",
     "svelte": "3.57.0",

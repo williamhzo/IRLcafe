@@ -100,14 +100,14 @@ defmodule SvoenixWeb.Router do
       on_mount: [{SvoenixWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
+
+      # NOTE: Please keep at the end of the router,
+      #       because looks like a catch-all route.
+      live "/:city_slug", AppLive, :index
+
+      live "/:city_slug/places/new", PlaceLive.Index, :new
+
+      live "/:city_slug/:place_slug", PlaceLive, :index
     end
-
-    # NOTE: Please keep at the end of the router,
-    #       because looks like a catch-all route.
-    live "/:city_slug", AppLive, :index
-
-    live "/:city_slug/places/new", PlaceLive.Index, :new
-
-    live "/:city_slug/:place_slug", PlaceLive, :index
   end
 end

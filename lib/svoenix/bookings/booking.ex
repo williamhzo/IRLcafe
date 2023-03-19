@@ -21,8 +21,8 @@ defmodule Svoenix.Bookings.Booking do
   @doc false
   def changeset(booking, attrs) do
     booking
-    |> cast(attrs, [:date, :slot])
-    |> validate_required([:date, :slot])
-    |> unique_constraint([:user, :place, :date, :slot])
+    |> cast(attrs, [:user_id, :place_id, :date, :slot])
+    |> validate_required([:user_id, :place_id, :date, :slot])
+    |> unique_constraint([:user_id, :place_id, :date, :slot])
   end
 end

@@ -4,12 +4,15 @@ defmodule SvoenixWeb.AppLive do
   alias Svoenix.Cities
   alias Svoenix.Places
   alias Svoenix.Bookings
+  alias Svoenix.Bookings.Booking
+
+  alias SvoenixWeb.UserAuth
   alias SvoenixWeb.Components.Svelte
 
   def render(assigns) do
     ~H"""
     <section class="flex flex-col md:px-8 w-full max-w-[min(100%,60rem)]">
-      <Svelte.render id="places" name="Places" props={%{"places" => @places}} />
+      <Svelte.render id="places" name="Places" props={%{places: @places}} />
     </section>
     """
   end
@@ -30,13 +33,33 @@ defmodule SvoenixWeb.AppLive do
     {:noreply, socket}
   end
 
-  def handle_event("submit_bookings", %{"slots" => slots}, socket) do
-    slots
-    |> Enum.map(fn booking_params ->
-      Bookings.create_booking(booking_params)
-    end)
+  def handle_event("submit_bookings", _payload, socket) when socket.assigns.current_user == nil do
+    {:noreply,
+     socket
+     |> put_flash(:error, "You must log in to book a slot.")
+     |> UserAuth.maybe_store_return_to()
+     |> redirect(to: ~p"/log_in")}
+  end
 
-    {:noreply, push_navigate(socket, to: ~p"/#{socket.assigns.city.slug}")}
+  def handle_event(
+        "submit_bookings",
+        %{"place_id" => place_id, "slots" => slots} = _payload,
+        socket
+      ) do
+    bookings =
+      slots
+      |> Enum.map(
+        &(&1
+          |> Map.put("user_id", socket.assigns.current_user.id)
+          |> Map.put("place_id", place_id))
+      )
+      |> Enum.map(&Bookings.create_booking/1)
+      |> Enum.map(fn
+        {:ok, %Booking{} = booking} -> booking
+        {:error, _changeset} -> nil
+      end)
+
+    {:reply, %{bookings: bookings}, socket}
   end
 
   def handle_event("toggle_slots", _value, socket) do

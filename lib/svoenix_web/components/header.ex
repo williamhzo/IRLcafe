@@ -2,8 +2,10 @@ defmodule SvoenixWeb.Header do
   use SvoenixWeb, :html
 
   alias Svoenix.Cities.City
+  alias Svoenix.Accounts.User
 
-  attr(:city, City, default: nil)
+  attr :current_user, User, default: nil
+  attr :city, City, default: nil
 
   def render(assigns) do
     ~H"""
@@ -11,6 +13,15 @@ defmodule SvoenixWeb.Header do
       <div class="w-main-content mx-auto flex items-center justify-between">
         <.link class="text-lg font-bold hover:text-brand-text-hover" navigate={~p"/"}>
           IRL café 👨‍💻☕
+        </.link>
+
+        <.link
+          :if={@current_user}
+          class="py-2 px-2 text-dark-700 select-none"
+          href={~p"/log_out"}
+          method="delete"
+        >
+          Log out
         </.link>
 
         <div :if={@city} class="flex flex-col items-end">

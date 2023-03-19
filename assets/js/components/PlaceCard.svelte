@@ -7,7 +7,6 @@
 
   let show_slots = false;
   $: if (hide_slots) show_slots = false;
-  $: console.log({ show_slots, hide_slots });
 
   function handle_click() {
     show_slots = true;
@@ -61,6 +60,6 @@
   </button>
 
   {#if show_slots}
-    <Slots place_id={place.place_id} {request} />
+    <Slots {place} {request} />
   {/if}
 </li>

@@ -1,6 +1,8 @@
 defmodule SvoenixWeb.Layouts do
   use SvoenixWeb, :html
 
+  alias SvoenixWeb.Header
+
   # embed_templates "layouts/*"
 
   def render("landing.html", assigns) do
@@ -22,7 +24,7 @@ defmodule SvoenixWeb.Layouts do
     <main class="min-h-[100dvh] min-h-screen">
       <.flash_group flash={@flash} />
 
-      <SvoenixWeb.Header.render city={@city} />
+      <Header.render current_user={@current_user} city={@city} />
 
       <div class="max-w-2xl mx-auto py-4 md:py-8">
         <%= @inner_content %>

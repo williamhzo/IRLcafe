@@ -1,17 +1,17 @@
 <script lang="ts">
   import Slot from './Slot.svelte';
   import { formatDate } from '../utils/dates.utils';
+  import addDays from 'date-fns/addDays';
 
-  export let place_id;
+  export let place;
   export let request;
 
-  let selected_bookings = [];
+  $: console.log({ place, current_bookings: place?.bookings });
 
   const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-
+  const tomorrow = addDays(today, 1);
   const hours = today.getHours();
+
   const bookings = [
     { date: today, slot: 'morning', available: hours < 12 },
     { date: today, slot: 'lunch', available: hours < 14 },
@@ -26,19 +26,26 @@
   const today_bookings = bookings.filter(({ date }) => date === today);
   const tomorrow_bookings = bookings.filter(({ date }) => date === tomorrow);
 
+  $: console.log({ bookings: place.bookings });
+
+  let selected_bookings = place.bookings.filter((booking) => booking.date);
+
   function submit_bookings() {
     if (selected_bookings.length > 0) {
       request(
         'submit_bookings',
-        { slots: selected_bookings, place_id },
-        () => {}
+        { slots: selected_bookings, place_id: place.id },
+        ({ bookings }) => {
+          // TODO: Success UI with timeout to reset UI.
+          console.log('success!');
+        }
       );
     }
   }
 </script>
 
 <section
-  class="flex rounded-base flex-col gap-4 items-start p-5 absolute inset-0 z-10 bg-background/75 backdrop-blur-lg"
+  class="flex rounded-base flex-col gap-4 items-start p-5 absolute inset-0 z-10 bg-background/90 backdrop-blur-lg"
 >
   <div class="flex flex-col items-start">
     <h2 class="text-xl font-bold">when do you feel like going?</h2>

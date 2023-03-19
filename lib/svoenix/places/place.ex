@@ -6,7 +6,7 @@ defmodule Svoenix.Places.Place do
   alias Svoenix.Bookings.Booking
 
   @derive {Jason.Encoder,
-           only: [:city_id, :slug, :label, :description, :img_url, :x, :y, :bookings]}
+           only: [:id, :city_id, :slug, :label, :description, :img_url, :x, :y, :bookings]}
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "places" do

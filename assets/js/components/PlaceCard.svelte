@@ -1,5 +1,5 @@
 <script>
-  import Slots from "./Slots.svelte";
+  import Slots from './Slots.svelte';
 
   export let place;
   export let hide_slots;

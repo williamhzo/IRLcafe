@@ -12,7 +12,7 @@
   const today = today_date.toISOString().split('T')[0];
   const tomorrow = tomorrow_date.toISOString().split('T')[0];
 
-  const bookings = [
+  const bookings_labels = [
     { date: today, slot: 'morning' },
     { date: today, slot: 'lunch' },
     { date: today, slot: 'afternoon' },
@@ -23,10 +23,14 @@
     { date: tomorrow, slot: 'afterwork' },
   ];
 
-  const today_bookings = bookings.filter(({ date }) => date === today);
-  const tomorrow_bookings = bookings.filter(({ date }) => date === tomorrow);
+  const today_bookings = bookings_labels.filter(({ date }) => date === today);
+  const tomorrow_bookings = bookings_labels.filter(
+    ({ date }) => date === tomorrow
+  );
 
-  let selected_bookings = place.bookings.filter((booking) =>
+  const bookings_from_server = place.bookings;
+
+  let selected_bookings = bookings_from_server.filter((booking) =>
     [today, tomorrow].includes(booking.date)
   );
 
@@ -48,6 +52,10 @@
     return (
       booking_1.date === booking_2.date && booking_1.slot === booking_2.slot
     );
+  }
+
+  function get_booked_volume(bookings, booking) {
+    return bookings.filter((b) => is_same_booking(booking, b)).length;
   }
 
   function submit_bookings() {
@@ -103,6 +111,7 @@
           {booking}
           available={is_today_slot_available(booking)}
           selected={is_booking_selected(selected_bookings, booking)}
+          volume_booked={get_booked_volume(bookings_from_server, booking)}
           {on_slot_click}
         >
           {booking.slot}
@@ -123,6 +132,7 @@
           {booking}
           available={true}
           selected={is_booking_selected(selected_bookings, booking)}
+          volume_booked={get_booked_volume(bookings_from_server, booking)}
           {on_slot_click}
         >
           {booking.slot}

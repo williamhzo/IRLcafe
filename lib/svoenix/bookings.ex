@@ -77,6 +77,30 @@ defmodule Svoenix.Bookings do
     end
   end
 
+  def update_bookings(place_id, user_id, date, slots) do
+    # see https://hexdocs.pm/ecto/Ecto.Changeset.html#cast_assoc/3
+    # see https://hexdocs.pm/ecto/Ecto.Changeset.html#cast_assoc/3-partial-changes-for-many-style-associations
+    query = from Booking, where: [user_id: ^user_id, date: ^date]
+
+    bookings =
+      Enum.map(
+        slots,
+        &%{
+          place_id: place_id,
+          user_id: user_id,
+          date: date,
+          slot: &1
+        }
+      )
+
+    Place
+    |> Repo.get!(place_id)
+    |> Repo.preload(bookings: query)
+    |> Ecto.Changeset.cast(%{bookings: bookings}, [])
+    |> Ecto.Changeset.cast_assoc(:bookings)
+    |> Repo.update()
+  end
+
   @doc """
   Updates a booking.
 

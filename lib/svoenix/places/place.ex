@@ -20,7 +20,8 @@ defmodule Svoenix.Places.Place do
     field :x, :string
     field :y, :string
 
-    has_many :bookings, Booking
+    # NOTE: on_conflict set for update_bookings bulk insert
+    has_many :bookings, Booking, on_replace: :delete
 
     timestamps()
   end

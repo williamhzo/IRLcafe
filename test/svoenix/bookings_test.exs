@@ -4,6 +4,7 @@ defmodule Svoenix.BookingsTest do
   alias Svoenix.Bookings
 
   describe "bookings" do
+    alias Svoenix.Places.Place
     alias Svoenix.Bookings.Booking
 
     import Svoenix.PlacesFixtures
@@ -39,6 +40,48 @@ defmodule Svoenix.BookingsTest do
 
     test "create_booking/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Bookings.create_booking(@invalid_attrs)
+    end
+
+    test "update_bookings/4 with valid data updates bookings", %{user: user, place: place} do
+      user_id = user.id
+      place_id = place.id
+
+      fixture = fn attrs -> booking_fixture(user_id, place_id, attrs) end
+
+      # Prepare Place with 2 bookings
+      existing_booking_1 = fixture.(%{date: ~D[2023-03-17], slot: "morning"})
+      existing_booking_2 = fixture.(%{date: ~D[2023-03-17], slot: "lunch"})
+
+      assert %Place{bookings: [^existing_booking_1, ^existing_booking_2]} =
+               Svoenix.Repo.preload(place, :bookings)
+
+      # Update bookings
+      assert {:ok,
+              %Place{
+                bookings: [
+                  %Booking{user_id: ^user_id, date: ~D[2023-03-17], slot: :lunch} = _booking_1,
+                  %Booking{user_id: ^user_id, date: ~D[2023-03-17], slot: :afternoon} = _booking_2
+                ]
+              }} =
+               Bookings.update_bookings(place_id, user_id, ~D[2023-03-17], [:lunch, :afternoon])
+
+      assert {:ok, %Place{bookings: []}} =
+               Bookings.update_bookings(place_id, user_id, ~D[2023-03-17], [])
+
+      assert {:ok,
+              %Place{
+                bookings: [
+                  %Booking{user_id: ^user_id, date: ~D[2023-03-17], slot: :morning} = _booking_1,
+                  %Booking{user_id: ^user_id, date: ~D[2023-03-17], slot: :afterwork} = _booking_2
+                ]
+              }} =
+               Bookings.update_bookings(place_id, user_id, ~D[2023-03-17], [:morning, :afterwork])
+    end
+
+    test "update_bookings/4 with invalid data returns error changeset",
+         %{user: user, place: place} do
+      assert {:error, %Ecto.Changeset{valid?: false}} =
+               Bookings.update_bookings(place.id, user.id, ~D[2023-03-17], ["invalid"])
     end
 
     test "update_booking/2 with valid data updates the booking", %{user: user, place: place} do

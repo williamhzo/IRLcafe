@@ -9,41 +9,46 @@ defmodule SvoenixWeb.HomeLive do
     <section class="container flex flex-col items-center gap-28 px-4 py-12">
       <header class="flex flex-col items-center gap-1">
         <p class="text-4xl">👨‍💻☕️</p>
-        <h1 class="tracking widest text-4xl font-bold">IRL café</h1>
+        <h1 class="mt-1 tracking widest text-4xl font-bold">IRL café</h1>
         <h2 class="mt-2 text-center text-slate-500">
           find the best spots near you & <br /> meet coffee buddies
         </h2>
       </header>
 
-      <div class="flex flex-wrap justify-center items-center gap-6">
-        <.form id="city-form" for={@form} class="relative" phx-submit="save">
-          <input
-            id="city-name-input"
-            name="name"
-            type="text"
-            placeholder={Enum.random(["🇵🇹 lisbon", "🇫🇷 paris", "🇬🇧 london"])}
-            class={[
-              "w-full sm:w-[12ch] py-4 px-5 text-4xl placeholder:text-3xl placeholder:text-opacity-50 placeholder:text-gray-400 bg-gray-100/75 shadow-inner hover:bg-gray-100 rounded-md",
-              "border border-gray-50 ring-transparent outline-transparent",
-              "focus:border-gray-200 focus:bg-gray-100 focus:ring-transparent",
-              "transition duration-75 text-center"
-            ]}
-            autocomplete="off"
-            required
-          />
-        </.form>
+      <.form
+        id="city-form"
+        for={@form}
+        class="flex flex-wrap justify-center items-center gap-6"
+        phx-submit="save"
+      >
+        <input
+          id="city-name-input"
+          name="name"
+          type="text"
+          tabindex="1"
+          placeholder={Enum.random(["🇵🇹 lisbon", "🇫🇷 paris", "🇬🇧 london"])}
+          class={[
+            "w-full sm:w-[15ch] p-3",
+            "text-left text-4xl placeholder:text-center placeholder:text-3xl placeholder:text-opacity-50 placeholder:text-gray-400",
+            "bg-gray-100/75 hover:bg-gray-100 rounded-md shadow-inner",
+            "border-2 border-gray-50 ring-transparent outline-transparent",
+            "focus:border-brand focus:bg-gray-100 focus:ring-transparent",
+            "transition duration-75"
+          ]}
+          autocomplete="off"
+          required
+        />
 
-        <button
-          class="w-full sm:w-[12ch] flex justify-center items-baseline bg-brand text-white px-6 py-3.5 rounded group"
-          phx-disable-with="exploring..."
-        >
-          <span class="text-lg font-semibold">explore</span>
-          <.icon
-            name="hero-arrow-right-mini"
-            class="h-4 w-4 translate-y-0.5 ml-3 group-hover:translate-x-1 transition-transform"
-          />
+        <button class={[
+          "flex justify-center items-center p-2.5",
+          "text-white font-medium bg-brand rounded-full shadow",
+          "phx-submit-loading:opacity-75 phx-submit-loading:animate-spin",
+          "hover:translate-x-1 transition-transform"
+        ]}>
+          <.icon name="hero-arrow-right-mini" class="block phx-submit-loading:hidden h-6 w-6" />
+          <.icon name="hero-lifebuoy-mini" class="hidden phx-submit-loading:block h-6 w-6" />
         </button>
-      </div>
+      </.form>
     </section>
     """
   end
@@ -52,7 +57,7 @@ defmodule SvoenixWeb.HomeLive do
 
   def mount(_params, _session, socket) do
     socket = assign(socket, :form, to_form(%{"name" => nil}))
-    {:ok, socket}
+    {:ok, socket, layout: {SvoenixWeb.Layouts, :landing}}
   end
 
   def handle_event("save", %{"name" => name}, socket) do

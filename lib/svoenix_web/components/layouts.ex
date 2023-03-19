@@ -3,6 +3,18 @@ defmodule SvoenixWeb.Layouts do
 
   # embed_templates "layouts/*"
 
+  def render("landing.html", assigns) do
+    ~H"""
+    <main class="min-h-[100dvh] min-h-screen">
+      <.flash_group flash={@flash} />
+
+      <div class="max-w-2xl mx-auto py-4 md:py-8">
+        <%= @inner_content %>
+      </div>
+    </main>
+    """
+  end
+
   def render("app.html", assigns) do
     assigns = assign_new(assigns, :city, fn -> nil end)
 

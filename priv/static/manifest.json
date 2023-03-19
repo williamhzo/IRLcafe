@@ -1,0 +1,22 @@
+{
+  "name": "IRL café",
+  "short_name": "IRL café",
+  "description": "find the best spots near you & meet coffee buddies",
+  "icons": [
+    {
+      "src": "/images/icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/images/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "scope": "/",
+  "start_url": "/?source=pwa",
+  "theme_color": "#111827",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

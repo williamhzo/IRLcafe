@@ -12,7 +12,7 @@ defmodule SvoenixWeb.Layouts do
 
       <SvoenixWeb.Header.render city={@city} />
 
-      <div class="max-w-2xl mx-auto py-8 md:py-16">
+      <div class="max-w-2xl mx-auto py-4 md:py-8">
         <%= @inner_content %>
       </div>
     </main>

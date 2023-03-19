@@ -1,10 +1,12 @@
 <script>
+  import { fade } from 'svelte/transition';
   import Slot from './Slot.svelte';
   import { formatDate } from '../utils/dates.utils';
 
-  let selected_bookings = [];
-
   export let request;
+
+  let selected_bookings = [];
+  let is_error = false;
 
   const today = new Date();
   const tomorrow = new Date(today);
@@ -26,15 +28,17 @@
   const tomorrow_bookings = bookings.filter(({ date }) => date === tomorrow);
 
   const submit_bookings = () => {
-    console.log();
-    request('submit_bookings', { slots: selected_bookings }, () => {});
+    if (selected_bookings.length > 0)
+      request('submit_bookings', { slots: selected_bookings }, () => {});
   };
 </script>
 
-<section class="bg-background flex flex-col gap-8 items-center p-5 pb-72">
-  <div>
-    <h2 class="text-lg font-bold">when do you feel like going?</h2>
-    <p class="text-muted">
+<section
+  class="flex rounded-base flex-col gap-5 items-start p-5 absolute inset-0 z-10 bg-background/90 backdrop-blur-md"
+>
+  <div class="flex flex-col items-start">
+    <h2 class="text-xl font-bold">when do you feel like going?</h2>
+    <p class="text-muted text-left">
       people are more likely to join if they know they're not alone 🤝
     </p>
   </div>
@@ -71,8 +75,13 @@
 
   <button
     on:click={submit_bookings}
-    class="touch-none select-none duration-150 transition-colors rounded-lg bg-brand text-white px-8 py-2 hover:bg-brand-surface-hover outline-transparent focus-visible:ring-2 ring-offset-2 focus-visible:ring-brand"
+    disabled={selected_bookings.length === 0}
+    class="self-center touch-none select-none duration-150 transition-colors rounded-lg bg-brand text-white px-8 py-2 hover:bg-brand-surface-hover outline-transparent focus-visible:ring-2 ring-offset-2 focus-visible:ring-brand disabled:opacity-60"
   >
     go
   </button>
+
+  {#if is_error}
+    <p transition:fade class="text-red-400">select a slot that suits you</p>
+  {/if}
 </section>

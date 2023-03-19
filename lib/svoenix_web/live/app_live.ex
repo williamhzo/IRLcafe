@@ -8,19 +8,21 @@ defmodule SvoenixWeb.AppLive do
 
   def render(assigns) do
     ~H"""
-    <section class="flex flex-col items-center gap-5 py-8 md:gap-12 md:py-16 md:px-8">
-      <Svelte.render id="slots" name="Slots" />
+    <section class="flex flex-col items-center gap-5 md:gap-12 md:px-8">
       <div class=" w-full flex flex-col items-start max-w-[min(100%,60rem)]">
-        <ul class="first:pl-[10%] scrollbar-none flex w-full snap-x snap-mandatory items-start gap-2 overflow-x-scroll">
+        <ul class="first:pl-[10%] scrollbar-none flex w-full last:pr-[10%] snap-x snap-mandatory py-2 items-start gap-2 overflow-x-scroll">
           <li
             :for={place <- @places}
-            class="rounded-base border p-3 xs:p-4 sm:p-5 border-gray-100 h-full w-[90%] shrink-0 bg-gray-50/75 snap-center"
+            class="relative p-3 border rounded-base xs:p-4 bg-gray-50/75 sm:p-5 group overflow-hidden border-gray-100 h-full w-[90%] shrink-0 snap-center"
           >
-            <button class="grid grid-rows-[auto,1fr,auto] gap-3">
+            <button
+              phx-click="toggle_slots"
+              class="grid grid-rows-[auto,1fr,auto] gap-8 outline-transparent ring-offset-2 focus-visible:ring-brand focus-visible:ring-2"
+            >
               <div class="items-items flex justify-between">
                 <h3 class="text-xl font-bold md:text-lg"><%= place.label %></h3>
 
-                <span class="relative flex h-3 w-3 shrink-0">
+                <span class="relative flex h-3 w-3 shrink-0 z-20">
                   <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
                   <span class="relative inline-flex h-3 w-3 rounded-full bg-green-500" />
                 </span>
@@ -38,7 +40,7 @@ defmodule SvoenixWeb.AppLive do
               />
 
               <div class="flex flex-col items-center">
-                <p class="text-muted text-center">420 m from your location</p>
+                <p class="text-muted text-center">420m from your location</p>
                 <a
                   href="https://goo.gl/maps/MB5bAcswpUryWinm9"
                   class="text-center text-sm font-normal underline"
@@ -47,6 +49,8 @@ defmodule SvoenixWeb.AppLive do
                 </a>
               </div>
             </button>
+
+            <Svelte.render :if={@show_slots} id="slots" name="Slots" />
           </li>
         </ul>
       </div>
@@ -57,7 +61,7 @@ defmodule SvoenixWeb.AppLive do
   ### Server
 
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, show_slots: false)}
   end
 
   def handle_params(%{"city_slug" => city_slug} = _params, _url, socket) do
@@ -77,5 +81,9 @@ defmodule SvoenixWeb.AppLive do
     end)
 
     {:noreply, push_navigate(socket, to: ~p"/#{socket.assigns.city.slug}")}
+  end
+
+  def handle_event("toggle_slots", _value, socket) do
+    {:noreply, update(socket, :show_slots, &(not &1))}
   end
 end

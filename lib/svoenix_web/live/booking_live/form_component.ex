@@ -19,6 +19,8 @@ defmodule SvoenixWeb.BookingLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
+        <.input field={@form[:place_id]} type="text" label="Place ID" />
+        <.input field={@form[:user_id]} type="text" label="User ID" />
         <.input field={@form[:date]} type="date" label="Date" />
         <.input field={@form[:slot]} type="text" label="Slot" />
         <:actions>

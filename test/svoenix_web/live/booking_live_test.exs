@@ -48,9 +48,7 @@ defmodule SvoenixWeb.BookingLiveTest do
              |> render_change() =~ "can&#39;t be blank"
 
       assert index_live
-             |> form("#booking-form",
-               booking: booking_attrs(user.id, place.id) |> Map.drop([:user_id, :place_id])
-             )
+             |> form("#booking-form", booking: booking_attrs(user.id, place.id, slot: "afterwork"))
              |> render_submit()
 
       assert_patch(index_live, ~p"/bookings")

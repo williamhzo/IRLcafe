@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fly } from 'svelte/transition';
   import addDays from 'date-fns/addDays';
 
   import Slot from './Slot.svelte';
@@ -58,18 +59,28 @@
     return bookings.filter((b) => is_same_booking(booking, b)).length;
   }
 
+  $: console.log('selected_bookings', selected_bookings);
+
+  let booking_success = false;
+
   function submit_bookings() {
     if (selected_bookings.length > 0) {
       request(
         'submit_bookings',
+
+        // { bookings: { date: [...slots] }, place_id: place.id },
+
         { slots: selected_bookings, place_id: place.id },
         ({ bookings }) => {
-          // TODO: Success UI with timeout to reset UI.
-          console.log('Booking success!', bookings);
+          // FIXME: les bookings sont tous `null`
+          console.log('bookings', bookings);
+          booking_success = true;
         }
       );
     }
   }
+
+  function format_bookings() {}
 
   function is_today_slot_available(booking) {
     const hours = new Date().getHours();
@@ -89,9 +100,8 @@
   }
 </script>
 
-<section
-  class="flex rounded-base flex-col gap-8 items-start p-5 absolute inset-0 z-10 bg-background/90 backdrop-blur-lg"
->
+<!-- class="flex rounded-base flex-col gap-8 items-start h-full p-5 absolute inset-0 z-10 bg-background/90 backdrop-blur-lg" -->
+<section class="flex rounded-base flex-col gap-8 items-start">
   <div class="flex flex-col items-start">
     <h2 class="text-xl font-bold">when do you feel like going?</h2>
     <p class="text-muted text-left">
@@ -105,6 +115,7 @@
 
       <small class="text-muted lowercase">{formatDate(today_date)}</small>
     </div>
+
     <div class="grid grid-cols-2 gap-2 mt-2">
       {#each today_bookings as booking}
         <Slot
@@ -126,6 +137,7 @@
 
       <small class="text-muted lowercase">{formatDate(tomorrow_date)}</small>
     </div>
+
     <div class="grid grid-cols-2 gap-2 mt-2">
       {#each tomorrow_bookings as booking}
         <Slot
@@ -148,4 +160,34 @@
   >
     go
   </button>
+
+  {#if booking_success}
+    <section
+      in:fly={{ y: 25, duration: 300 }}
+      out:fly={{ y: -25, duration: 300 }}
+      class="absolute shadow-sm flex flex-col items-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 self-center bg-background/75 rounded-base backdrop-blur-md p-5 gap-5 border border-gray-100 w-max max-w-full"
+    >
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 15 15"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-8 h-8 text-muted"
+        ><path
+          d="M7.49991 0.877045C3.84222 0.877045 0.877075 3.84219 0.877075 7.49988C0.877075 11.1575 3.84222 14.1227 7.49991 14.1227C11.1576 14.1227 14.1227 11.1575 14.1227 7.49988C14.1227 3.84219 11.1576 0.877045 7.49991 0.877045ZM1.82708 7.49988C1.82708 4.36686 4.36689 1.82704 7.49991 1.82704C10.6329 1.82704 13.1727 4.36686 13.1727 7.49988C13.1727 10.6329 10.6329 13.1727 7.49991 13.1727C4.36689 13.1727 1.82708 10.6329 1.82708 7.49988ZM10.1589 5.53774C10.3178 5.31191 10.2636 5.00001 10.0378 4.84109C9.81194 4.68217 9.50004 4.73642 9.34112 4.96225L6.51977 8.97154L5.35681 7.78706C5.16334 7.59002 4.84677 7.58711 4.64973 7.78058C4.45268 7.97404 4.44978 8.29061 4.64325 8.48765L6.22658 10.1003C6.33054 10.2062 6.47617 10.2604 6.62407 10.2483C6.77197 10.2363 6.90686 10.1591 6.99226 10.0377L10.1589 5.53774Z"
+          fill="currentColor"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+        /></svg
+      >
+      <div class="flex flex-col items-center">
+        <p class="text-center text-lg font-bold">nice, see you tonight!</p>
+
+        <small class="text-muted"
+          >tell your coffee-buddies to come over 👨‍💻☕</small
+        >
+      </div>
+    </section>
+  {/if}
 </section>

@@ -12,6 +12,8 @@ defmodule SvoenixWeb.AppLive do
     ~H"""
     <section class="flex flex-col md:px-8 w-full max-w-[min(100%,60rem)]">
       <Svelte.render id="places" name="Places" props={%{places: @places}} />
+      <%!-- FIXME --%>
+      <%!-- <div class="abosulute h-full inset-0 w-12 debug sm:w-32 md:w-48 right-0 bg-gradient-to-l from-background via-background/75 to-transparent"></div> --%>
     </section>
     """
   end

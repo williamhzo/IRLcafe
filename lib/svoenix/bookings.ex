@@ -4,7 +4,6 @@ defmodule Svoenix.Bookings do
   """
 
   import Ecto.Query, warn: false
-  alias SvoenixWeb.PlaceLive
   alias Svoenix.Repo
 
   alias Svoenix.Places.Place

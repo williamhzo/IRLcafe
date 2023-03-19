@@ -1,12 +1,11 @@
-<script>
-  import { fade } from 'svelte/transition';
+<script lang="ts">
   import Slot from './Slot.svelte';
   import { formatDate } from '../utils/dates.utils';
 
   export let request;
+  export let place;
 
   let selected_bookings = [];
-  let is_error = false;
 
   const today = new Date();
   const tomorrow = new Date(today);
@@ -27,14 +26,14 @@
   const today_bookings = bookings.filter(({ date }) => date === today);
   const tomorrow_bookings = bookings.filter(({ date }) => date === tomorrow);
 
-  const submit_bookings = () => {
+  function submit_bookings() {
     if (selected_bookings.length > 0)
       request('submit_bookings', { slots: selected_bookings }, () => {});
-  };
+  }
 </script>
 
 <section
-  class="flex rounded-base flex-col gap-5 items-start p-5 absolute inset-0 z-10 bg-background/90 backdrop-blur-md"
+  class="flex rounded-base flex-col gap-4 items-start p-5 absolute inset-0 z-10 bg-background/90 backdrop-blur-md"
 >
   <div class="flex flex-col items-start">
     <h2 class="text-xl font-bold">when do you feel like going?</h2>
@@ -80,8 +79,4 @@
   >
     go
   </button>
-
-  {#if is_error}
-    <p transition:fade class="text-red-400">select a slot that suits you</p>
-  {/if}
 </section>

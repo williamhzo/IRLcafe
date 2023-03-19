@@ -1,7 +1,7 @@
-import Slots from '../components/Slots.svelte';
+import Places from '../components/Places.svelte';
 
 const components = {
-  Slots,
+  Places,
 };
 
 export const SvelteHook = {

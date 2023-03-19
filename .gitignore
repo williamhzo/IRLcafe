@@ -42,3 +42,6 @@ npm-debug.log
 /priv/plts/
 
 /.elixir_ls/
+
+.DS_Store
+**/.DS_Store

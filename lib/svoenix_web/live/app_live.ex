@@ -5,7 +5,6 @@ defmodule SvoenixWeb.AppLive do
   alias Svoenix.Places
   alias Svoenix.Places.Place
   alias Svoenix.Bookings
-  alias Svoenix.Bookings.Booking
 
   alias SvoenixWeb.Components.Svelte
 
@@ -47,24 +46,20 @@ defmodule SvoenixWeb.AppLive do
 
   def handle_event(
         "submit_bookings",
-        %{"place_id" => place_id, "slots" => slots} = _payload,
+        %{"place_id" => place_id, "bookings" => bookings} = _payload,
         socket
       ) do
-    bookings =
-      slots
-      |> Enum.map(
-        &(&1
-          |> Map.put("user_id", socket.assigns.current_user.id)
-          |> Map.put("place_id", place_id))
-      )
-      # TODO: Bookings.insert_bookings(bookings)
-      |> Enum.map(&Bookings.create_booking/1)
-      |> Enum.map(fn
-        {:ok, %Booking{} = booking} -> booking
-        {:error, _changeset} -> nil
-      end)
+    user_id = socket.assigns.current_user.id
 
-    {:reply, %{bookings: bookings}, socket}
+    new_bookings =
+      bookings
+      |> Enum.map(fn {date, slots} -> Bookings.update_bookings(place_id, user_id, date, slots) end)
+      |> Enum.map(fn
+        {:ok, %Place{} = place} -> place.bookings
+      end)
+      |> List.flatten()
+
+    {:reply, %{bookings: new_bookings}, socket}
   end
 
   def handle_info({:bookings_updated, bookings, place_id}, socket) do

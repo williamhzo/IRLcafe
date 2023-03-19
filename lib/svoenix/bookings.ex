@@ -93,12 +93,24 @@ defmodule Svoenix.Bookings do
         }
       )
 
-    Place
-    |> Repo.get!(place_id)
-    |> Repo.preload(bookings: query)
-    |> Ecto.Changeset.cast(%{bookings: bookings}, [])
-    |> Ecto.Changeset.cast_assoc(:bookings)
-    |> Repo.update()
+    case Place
+         |> Repo.get!(place_id)
+         |> Repo.preload(bookings: query)
+         |> Ecto.Changeset.cast(%{bookings: bookings}, [])
+         |> Ecto.Changeset.cast_assoc(:bookings)
+         |> Repo.update() do
+      {:ok, %Place{} = place} ->
+        Phoenix.PubSub.broadcast(
+          Svoenix.PubSub,
+          "bookings:all",
+          {:bookings_updated, list_bookings_of_place_id(place.id), place.id}
+        )
+
+        {:ok, place}
+
+      x ->
+        x
+    end
   end
 
   @doc """

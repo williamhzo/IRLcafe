@@ -15,4 +15,8 @@ body {
     /* Color selected text properly */
     @apply selection:bg-emerald-200;
   }
+
+  .debug {
+    @apply outline outline-2 outline-red-500/50;
+  }
 }

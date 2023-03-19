@@ -5,6 +5,7 @@ on:
     secrets:
       FLY_API_TOKEN:
         required: true
+  workflow_dispatch: # for Github Button to trigger workflow
 
 env:
   DOCKER_REGISTRY: ghcr.io

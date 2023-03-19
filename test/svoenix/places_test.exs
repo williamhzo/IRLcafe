@@ -18,7 +18,7 @@ defmodule Svoenix.PlacesTest do
 
     test "list_places_of_city_slug/1 returns all places of given city" do
       city = city_fixture()
-      place = place_fixture(%{}, city.id)
+      place = place_fixture(%{}, city.id) |> Svoenix.Repo.preload(:bookings)
       assert Places.list_places_of_city_slug(city.slug) == [place]
     end
 

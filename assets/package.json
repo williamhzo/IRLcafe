@@ -5,6 +5,7 @@
     "date-fns": "^2.29.3",
     "esbuild": "0.16.17",
     "esbuild-svelte": "0.7.3",
+    "lodash": "^4.17.21",
     "svelte": "3.57.0",
     "tailwind-scrollbar": "^3.0.0"
   },

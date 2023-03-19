@@ -1,6 +1,8 @@
-<script lang="ts">
+<script>
   import { fly } from 'svelte/transition';
   import addDays from 'date-fns/addDays';
+  import groupBy from 'lodash/groupBy';
+  import uniq from 'lodash/uniq';
 
   import Slot from './Slot.svelte';
   import { formatDate } from '../utils/dates.utils';
@@ -67,10 +69,7 @@
     if (selected_bookings.length > 0) {
       request(
         'submit_bookings',
-
-        // { bookings: { date: [...slots] }, place_id: place.id },
-
-        { slots: selected_bookings, place_id: place.id },
+        { bookings: format_bookings(selected_bookings), place_id: place.id },
         ({ bookings }) => {
           // FIXME: les bookings sont tous `null`
           console.log('bookings', bookings);
@@ -80,7 +79,15 @@
     }
   }
 
-  function format_bookings() {}
+  function format_bookings(bookings) {
+    const format_bookings = groupBy(bookings, (b) => b.date);
+
+    const bookings_array = Object.entries(format_bookings)
+      .map(([date, bookings]) => [date, bookings.map((b) => b.slot)])
+      .map(([date, slots]) => [date, uniq(slots)]);
+
+    return Object.fromEntries(bookings_array);
+  }
 
   function is_today_slot_available(booking) {
     const hours = new Date().getHours();

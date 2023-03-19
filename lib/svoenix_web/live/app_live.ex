@@ -68,15 +68,11 @@ defmodule SvoenixWeb.AppLive do
   end
 
   def handle_info({:bookings_updated, bookings, place_id}, socket) do
-    IO.inspect("Received on bookings:all with #{place_id}.")
-
     places =
       Enum.map(socket.assigns.places, fn
         %Place{id: ^place_id} = p -> %{p | bookings: bookings}
         %Place{} = p -> p
       end)
-
-    IO.inspect(places, label: "updated places")
 
     {:noreply, assign(socket, :places, places)}
   end

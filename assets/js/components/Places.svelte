@@ -1,10 +1,8 @@
 <script>
   import PlaceCard from './PlaceCard.svelte';
 
-  export let request;
-
   export let places;
-  $: console.log('places', places);
+  export let request;
 
   let hide_slots = true;
 

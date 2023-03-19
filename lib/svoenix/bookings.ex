@@ -65,8 +65,6 @@ defmodule Svoenix.Bookings do
       {:ok, %Booking{} = booking} ->
         place_id = booking.place_id
 
-        IO.inspect("Broadcasting on bookings:all with #{place_id}...")
-
         Phoenix.PubSub.broadcast(
           Svoenix.PubSub,
           "bookings:all",

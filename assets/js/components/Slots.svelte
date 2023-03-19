@@ -1,44 +1,63 @@
 <script lang="ts">
-  import Slot from "./Slot.svelte";
-  import { formatDate } from "../utils/dates.utils";
-  import addDays from "date-fns/addDays";
+  import addDays from 'date-fns/addDays';
+
+  import Slot from './Slot.svelte';
+  import { formatDate } from '../utils/dates.utils';
 
   export let place;
-  $: console.log("place", place);
-
   export let request;
 
   const today_date = new Date();
   const tomorrow_date = addDays(today_date, 1);
-  const today = today_date.toISOString().split("T")[0];
-  const tomorrow = tomorrow_date.toISOString().split("T")[0];
+  const today = today_date.toISOString().split('T')[0];
+  const tomorrow = tomorrow_date.toISOString().split('T')[0];
 
   const bookings = [
-    { date: today, slot: "morning" },
-    { date: today, slot: "lunch" },
-    { date: today, slot: "afternoon" },
-    { date: today, slot: "afterwork" },
-    { date: tomorrow, slot: "morning" },
-    { date: tomorrow, slot: "lunch" },
-    { date: tomorrow, slot: "afternoon" },
-    { date: tomorrow, slot: "afterwork" },
+    { date: today, slot: 'morning' },
+    { date: today, slot: 'lunch' },
+    { date: today, slot: 'afternoon' },
+    { date: today, slot: 'afterwork' },
+    { date: tomorrow, slot: 'morning' },
+    { date: tomorrow, slot: 'lunch' },
+    { date: tomorrow, slot: 'afternoon' },
+    { date: tomorrow, slot: 'afterwork' },
   ];
 
   const today_bookings = bookings.filter(({ date }) => date === today);
   const tomorrow_bookings = bookings.filter(({ date }) => date === tomorrow);
 
-  $: selected_bookings = place.bookings.filter((booking) =>
+  let selected_bookings = place.bookings.filter((booking) =>
     [today, tomorrow].includes(booking.date)
   );
+
+  function on_slot_click(booking) {
+    if (is_booking_selected(selected_bookings, booking)) {
+      selected_bookings = selected_bookings.filter(
+        (b) => !is_same_booking(booking, b)
+      );
+    } else {
+      selected_bookings = [...selected_bookings, booking];
+    }
+  }
+
+  function is_booking_selected(selected_bookings, booking) {
+    return selected_bookings.some((b) => is_same_booking(booking, b));
+  }
+
+  function is_same_booking(booking_1, booking_2) {
+    return (
+      booking_1.date === booking_2.date && booking_1.slot === booking_2.slot
+    );
+  }
 
   function submit_bookings() {
     if (selected_bookings.length > 0) {
       request(
-        "submit_bookings",
+        'submit_bookings',
         { slots: selected_bookings, place_id: place.id },
         ({ bookings }) => {
           // TODO: Success UI with timeout to reset UI.
-          console.log("success!");
+          console.log('Booking success!', bookings);
         }
       );
     }
@@ -48,13 +67,13 @@
     const hours = new Date().getHours();
 
     switch (booking.slot) {
-      case "morning":
+      case 'morning':
         return hours < 12;
-      case "lunch":
+      case 'lunch':
         return hours < 14;
-      case "afternoon":
+      case 'afternoon':
         return hours < 17;
-      case "afterwork":
+      case 'afterwork':
         return hours < 21;
       default:
         return true;
@@ -81,9 +100,10 @@
     <div class="grid grid-cols-2 gap-2 mt-2">
       {#each today_bookings as booking}
         <Slot
-          bind:selected_bookings
-          available={is_today_slot_available(booking)}
           {booking}
+          available={is_today_slot_available(booking)}
+          selected={is_booking_selected(selected_bookings, booking)}
+          {on_slot_click}
         >
           {booking.slot}
         </Slot>
@@ -99,7 +119,12 @@
     </div>
     <div class="grid grid-cols-2 gap-2 mt-2">
       {#each tomorrow_bookings as booking}
-        <Slot bind:selected_bookings available={true} {booking}>
+        <Slot
+          {booking}
+          available={true}
+          selected={is_booking_selected(selected_bookings, booking)}
+          {on_slot_click}
+        >
           {booking.slot}
         </Slot>
       {/each}

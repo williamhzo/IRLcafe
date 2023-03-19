@@ -20,6 +20,8 @@ export const SvelteHook = {
     });
   },
   updated() {
+    console.log('this.svelteProps()', this.svelteProps());
+
     // NOTE: Updating properties without re-instantiating the entire object.
     this._instance.$$set(this.svelteProps());
   },

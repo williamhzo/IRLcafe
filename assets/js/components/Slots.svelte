@@ -6,29 +6,28 @@
   export let place;
   export let request;
 
-  $: console.log({ place, current_bookings: place?.bookings });
-
-  const today = new Date();
-  const tomorrow = addDays(today, 1);
-  const hours = today.getHours();
+  const today_date = new Date();
+  const tomorrow_date = addDays(today_date, 1);
+  const today = today_date.toISOString().split('T')[0];
+  const tomorrow = tomorrow_date.toISOString().split('T')[0];
 
   const bookings = [
-    { date: today, slot: 'morning', available: hours < 12 },
-    { date: today, slot: 'lunch', available: hours < 14 },
-    { date: today, slot: 'afternoon', available: hours < 17 },
-    { date: today, slot: 'afterwork', available: hours < 21 },
-    { date: tomorrow, slot: 'morning', available: true },
-    { date: tomorrow, slot: 'lunch', available: true },
-    { date: tomorrow, slot: 'afternoon', available: true },
-    { date: tomorrow, slot: 'afterwork', available: true },
+    { date: today, slot: 'morning' },
+    { date: today, slot: 'lunch' },
+    { date: today, slot: 'afternoon' },
+    { date: today, slot: 'afterwork' },
+    { date: tomorrow, slot: 'morning' },
+    { date: tomorrow, slot: 'lunch' },
+    { date: tomorrow, slot: 'afternoon' },
+    { date: tomorrow, slot: 'afterwork' },
   ];
 
   const today_bookings = bookings.filter(({ date }) => date === today);
   const tomorrow_bookings = bookings.filter(({ date }) => date === tomorrow);
 
-  $: console.log({ bookings: place.bookings });
-
-  let selected_bookings = place.bookings.filter((booking) => booking.date);
+  let selected_bookings = place.bookings.filter((booking) =>
+    [today, tomorrow].includes(booking.date)
+  );
 
   function submit_bookings() {
     if (selected_bookings.length > 0) {
@@ -42,10 +41,27 @@
       );
     }
   }
+
+  function is_today_slot_available(booking) {
+    const hours = new Date().getHours();
+
+    switch (booking.slot) {
+      case 'morning':
+        return hours < 12;
+      case 'lunch':
+        return hours < 14;
+      case 'afternoon':
+        return hours < 17;
+      case 'afterwork':
+        return hours < 21;
+      default:
+        return true;
+    }
+  }
 </script>
 
 <section
-  class="flex rounded-base flex-col gap-4 items-start p-5 absolute inset-0 z-10 bg-background/90 backdrop-blur-lg"
+  class="flex rounded-base flex-col gap-8 items-start p-5 absolute inset-0 z-10 bg-background/90 backdrop-blur-lg"
 >
   <div class="flex flex-col items-start">
     <h2 class="text-xl font-bold">when do you feel like going?</h2>
@@ -56,30 +72,34 @@
 
   <div class="w-full">
     <div class="flex items-baseline justify-between">
-      <p>today</p>
+      <p class="font-semibold text-muted">today</p>
 
-      <small class="text-muted lowercase">{formatDate(today)}</small>
+      <small class="text-muted lowercase">{formatDate(today_date)}</small>
     </div>
     <div class="grid grid-cols-2 gap-2 mt-2">
       {#each today_bookings as booking}
-        <Slot bind:selected_bookings available={booking.available} {booking}
-          >{booking.slot}</Slot
+        <Slot
+          bind:selected_bookings
+          available={is_today_slot_available(booking)}
+          {booking}
         >
+          {booking.slot}
+        </Slot>
       {/each}
     </div>
   </div>
 
   <div class="w-full">
     <div class="flex items-center justify-between">
-      <p>tomorrow</p>
+      <p class="font-semibold text-muted">tomorrow</p>
 
-      <small class="text-muted lowercase">{formatDate(tomorrow)}</small>
+      <small class="text-muted lowercase">{formatDate(tomorrow_date)}</small>
     </div>
     <div class="grid grid-cols-2 gap-2 mt-2">
       {#each tomorrow_bookings as booking}
-        <Slot bind:selected_bookings available={booking.available} {booking}
-          >{booking.slot}</Slot
-        >
+        <Slot bind:selected_bookings available={true} {booking}>
+          {booking.slot}
+        </Slot>
       {/each}
     </div>
   </div>

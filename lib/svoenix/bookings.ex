@@ -4,8 +4,10 @@ defmodule Svoenix.Bookings do
   """
 
   import Ecto.Query, warn: false
+  alias SvoenixWeb.PlaceLive
   alias Svoenix.Repo
 
+  alias Svoenix.Places.Place
   alias Svoenix.Bookings.Booking
 
   @doc """
@@ -19,6 +21,13 @@ defmodule Svoenix.Bookings do
   """
   def list_bookings do
     Repo.all(Booking)
+  end
+
+  def list_bookings_of_place_id(place_id) do
+    Place
+    |> Repo.get!(place_id)
+    |> Repo.preload(:bookings)
+    |> Map.get(:bookings)
   end
 
   @doc """
@@ -50,9 +59,25 @@ defmodule Svoenix.Bookings do
 
   """
   def create_booking(attrs \\ %{}) do
-    %Booking{}
-    |> Booking.changeset(attrs)
-    |> Repo.insert()
+    case %Booking{}
+         |> Booking.changeset(attrs)
+         |> Repo.insert() do
+      {:ok, %Booking{} = booking} ->
+        place_id = booking.place_id
+
+        IO.inspect("Broadcasting on bookings:all with #{place_id}...")
+
+        Phoenix.PubSub.broadcast(
+          Svoenix.PubSub,
+          "bookings:all",
+          {:bookings_updated, list_bookings_of_place_id(place_id), place_id}
+        )
+
+        {:ok, booking}
+
+      x ->
+        x
+    end
   end
 
   @doc """

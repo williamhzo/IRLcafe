@@ -5,7 +5,7 @@ defmodule Svoenix.Bookings.Booking do
   alias Svoenix.Places.Place
   alias Svoenix.Accounts.User
 
-  @derive {Jason.Encoder, only: [:user_id, :place_id, :date, :slot]}
+  @derive {Jason.Encoder, only: [:id, :user_id, :place_id, :date, :slot]}
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "bookings" do

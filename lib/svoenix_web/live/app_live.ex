@@ -5,6 +5,7 @@ defmodule SvoenixWeb.AppLive do
   alias Svoenix.Places
   alias Svoenix.Places.Place
   alias Svoenix.Bookings
+  alias Svoenix.Bookings.Booking
 
   alias SvoenixWeb.Components.Svelte
 
@@ -55,11 +56,10 @@ defmodule SvoenixWeb.AppLive do
 
     new_bookings =
       bookings
-      |> Enum.map(fn {date, slots} -> Bookings.update_bookings(place_id, user_id, date, slots) end)
+      |> Enum.map(fn {date, slots} -> Bookings.upsert_booking(place_id, user_id, date, slots) end)
       |> Enum.map(fn
-        {:ok, %Place{} = place} -> place.bookings
+        {:ok, %Booking{} = booking} -> booking
       end)
-      |> List.flatten()
 
     {:reply, %{bookings: new_bookings}, socket}
   end

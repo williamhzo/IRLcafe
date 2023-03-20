@@ -10,7 +10,7 @@
 
 <.list>
   <:item title="Date"><%= @booking.date %></:item>
-  <:item title="Slot"><%= @booking.slot %></:item>
+  <:item title="Slots"><%= inspect(@booking.slots) %></:item>
 </.list>
 
 <.back navigate={~p"/bookings"}>Back to bookings</.back>

@@ -2,6 +2,7 @@ defmodule SvoenixWeb.BookingLive.FormComponent do
   use SvoenixWeb, :live_component
 
   alias Svoenix.Bookings
+  alias Svoenix.Bookings.Booking
 
   @impl true
   def render(assigns) do
@@ -22,7 +23,13 @@ defmodule SvoenixWeb.BookingLive.FormComponent do
         <.input field={@form[:place_id]} type="text" label="Place ID" />
         <.input field={@form[:user_id]} type="text" label="User ID" />
         <.input field={@form[:date]} type="date" label="Date" />
-        <.input field={@form[:slot]} type="text" label="Slot" />
+        <.input
+          field={@form[:slots]}
+          type="select"
+          multiple
+          options={Ecto.Enum.mappings(Booking, :slots)}
+          label="Slots"
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Booking</.button>
         </:actions>

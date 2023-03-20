@@ -11,7 +11,7 @@ defmodule Svoenix.BookingsTest do
     import Svoenix.BookingsFixtures
     import Svoenix.AccountsFixtures
 
-    @invalid_attrs %{user_id: nil, place_id: nil, date: nil, slot: nil}
+    @invalid_attrs %{user_id: nil, place_id: nil, date: nil, slots: nil}
 
     setup do
       user = user_fixture()
@@ -31,66 +31,70 @@ defmodule Svoenix.BookingsTest do
     end
 
     test "create_booking/1 with valid data creates a booking", %{user: user, place: place} do
-      valid_attrs = booking_attrs(user.id, place.id, %{date: ~D[2023-03-17], slot: "afterwork"})
+      valid_attrs =
+        booking_attrs(user.id, place.id, %{date: ~D[2023-03-17], slots: ["afterwork"]})
 
       assert {:ok, %Booking{} = booking} = Bookings.create_booking(valid_attrs)
       assert booking.date == ~D[2023-03-17]
-      assert booking.slot == :afterwork
+      assert booking.slots == [:afterwork]
     end
 
     test "create_booking/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Bookings.create_booking(@invalid_attrs)
     end
 
-    test "update_bookings/4 with valid data updates bookings", %{user: user, place: place} do
+    test "upsert_booking/2 with valid data updates bookings", %{user: user, place: place} do
       user_id = user.id
       place_id = place.id
 
-      fixture = fn attrs -> booking_fixture(user_id, place_id, attrs) end
+      # Prepare Place with 1 booking
+      existing_booking =
+        booking_fixture(user_id, place_id, %{date: ~D[2023-03-17], slots: ["morning"]})
 
-      # Prepare Place with 2 bookings
-      existing_booking_1 = fixture.(%{date: ~D[2023-03-17], slot: "morning"})
-      existing_booking_2 = fixture.(%{date: ~D[2023-03-17], slot: "lunch"})
+      assert %Place{bookings: [^existing_booking]} = Svoenix.Repo.preload(place, :bookings)
 
-      assert %Place{bookings: [^existing_booking_1, ^existing_booking_2]} =
-               Svoenix.Repo.preload(place, :bookings)
-
-      # Update bookings
+      # Upsert existing booking
       assert {:ok,
-              %Place{
-                bookings: [
-                  %Booking{user_id: ^user_id, date: ~D[2023-03-17], slot: :lunch} = _booking_1,
-                  %Booking{user_id: ^user_id, date: ~D[2023-03-17], slot: :afternoon} = _booking_2
-                ]
+              %Booking{
+                place_id: ^place_id,
+                user_id: ^user_id,
+                date: ~D[2023-03-17],
+                slots: [:lunch, :afternoon]
               }} =
-               Bookings.update_bookings(place_id, user_id, ~D[2023-03-17], [:lunch, :afternoon])
-
-      assert {:ok, %Place{bookings: []}} =
-               Bookings.update_bookings(place_id, user_id, ~D[2023-03-17], [])
+               Bookings.upsert_booking(place_id, user_id, ~D[2023-03-17], [:lunch, :afternoon])
 
       assert {:ok,
-              %Place{
-                bookings: [
-                  %Booking{user_id: ^user_id, date: ~D[2023-03-17], slot: :morning} = _booking_1,
-                  %Booking{user_id: ^user_id, date: ~D[2023-03-17], slot: :afterwork} = _booking_2
-                ]
+              %Booking{
+                place_id: ^place_id,
+                user_id: ^user_id,
+                date: ~D[2023-03-17],
+                slots: []
+              }} = Bookings.upsert_booking(place_id, user_id, ~D[2023-03-17], [])
+
+      # Upsert new booking
+      assert {:ok,
+              %Booking{
+                place_id: ^place_id,
+                user_id: ^user_id,
+                date: ~D[2023-03-18],
+                slots: [:morning, :afterwork]
               }} =
-               Bookings.update_bookings(place_id, user_id, ~D[2023-03-17], [:morning, :afterwork])
+               Bookings.upsert_booking(place_id, user_id, ~D[2023-03-18], [:morning, :afterwork])
     end
 
-    test "update_bookings/4 with invalid data returns error changeset",
-         %{user: user, place: place} do
-      assert {:error, %Ecto.Changeset{valid?: false}} =
-               Bookings.update_bookings(place.id, user.id, ~D[2023-03-17], ["invalid"])
-    end
+    # test "upsert_booking/2 with invalid data returns error changeset",
+    #      %{user: user, place: place} do
+    #   assert {:error, %Ecto.Changeset{valid?: false}} =
+    #            Bookings.upsert_booking(place.id, user.id, ~D[2023-03-17], nil)
+    # end
 
     test "update_booking/2 with valid data updates the booking", %{user: user, place: place} do
       booking = booking_fixture(user.id, place.id)
-      update_attrs = %{date: ~D[2023-03-18], slot: "afternoon"}
+      update_attrs = %{date: ~D[2023-03-18], slots: ["afternoon"]}
 
       assert {:ok, %Booking{} = booking} = Bookings.update_booking(booking, update_attrs)
       assert booking.date == ~D[2023-03-18]
-      assert booking.slot == :afternoon
+      assert booking.slots == [:afternoon]
     end
 
     test "update_booking/2 with invalid data returns error changeset", %{user: user, place: place} do

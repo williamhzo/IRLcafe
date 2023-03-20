@@ -77,36 +77,27 @@ defmodule Svoenix.Bookings do
     end
   end
 
-  def update_bookings(place_id, user_id, date, slots) do
-    # see https://hexdocs.pm/ecto/Ecto.Changeset.html#cast_assoc/3
-    # see https://hexdocs.pm/ecto/Ecto.Changeset.html#cast_assoc/3-partial-changes-for-many-style-associations
-    query = from Booking, where: [user_id: ^user_id, date: ^date]
+  def upsert_booking(place_id, user_id, date, slots) do
+    case Repo.insert(
+           %Booking{
+             place_id: place_id,
+             user_id: user_id,
+             date: date,
+             slots: slots
+           },
+           on_conflict: {:replace_all_except, [:place_id, :user_id, :date]},
+           conflict_target: [:place_id, :user_id, :date]
+         ) do
+      {:ok, %Booking{} = booking} ->
+        place_id = booking.place_id
 
-    bookings =
-      Enum.map(
-        slots,
-        &%{
-          place_id: place_id,
-          user_id: user_id,
-          date: date,
-          slot: &1
-        }
-      )
-
-    case Place
-         |> Repo.get!(place_id)
-         |> Repo.preload(bookings: query)
-         |> Ecto.Changeset.cast(%{bookings: bookings}, [])
-         |> Ecto.Changeset.cast_assoc(:bookings)
-         |> Repo.update() do
-      {:ok, %Place{} = place} ->
         Phoenix.PubSub.broadcast(
           Svoenix.PubSub,
           "bookings:all",
-          {:bookings_updated, list_bookings_of_place_id(place.id), place.id}
+          {:bookings_updated, list_bookings_of_place_id(place_id), place_id}
         )
 
-        {:ok, place}
+        {:ok, booking}
 
       x ->
         x

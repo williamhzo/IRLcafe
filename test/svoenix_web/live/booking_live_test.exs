@@ -7,8 +7,8 @@ defmodule SvoenixWeb.BookingLiveTest do
   import Svoenix.BookingsFixtures
   import Svoenix.AccountsFixtures
 
-  @update_attrs %{date: "2023-03-18", slot: "afternoon"}
-  @invalid_attrs %{date: nil, slot: nil}
+  @update_attrs %{date: "2023-03-18", slots: ["afternoon"]}
+  @invalid_attrs %{date: nil, slots: []}
 
   defp create_user(_) do
     user = user_fixture()
@@ -32,10 +32,12 @@ defmodule SvoenixWeb.BookingLiveTest do
       {:ok, _index_live, html} = live(conn, ~p"/bookings")
 
       assert html =~ "Listing Bookings"
-      assert html =~ "#{booking.slot}"
+      assert html =~ "#{hd(booking.slots)}"
     end
 
-    test "saves new booking", %{conn: conn, user: user, place: place} do
+    test "saves new booking", %{conn: conn, user: user} do
+      another_place = place_fixture()
+
       {:ok, index_live, _html} = live(conn, ~p"/bookings")
 
       assert index_live |> element("a", "New Booking") |> render_click() =~
@@ -48,7 +50,7 @@ defmodule SvoenixWeb.BookingLiveTest do
              |> render_change() =~ "can&#39;t be blank"
 
       assert index_live
-             |> form("#booking-form", booking: booking_attrs(user.id, place.id, slot: "afterwork"))
+             |> form("#booking-form", booking: booking_attrs(user.id, another_place.id))
              |> render_submit()
 
       assert_patch(index_live, ~p"/bookings")
@@ -96,7 +98,7 @@ defmodule SvoenixWeb.BookingLiveTest do
       {:ok, _show_live, html} = live(conn, ~p"/bookings/#{booking}")
 
       assert html =~ "Show Booking"
-      assert html =~ "#{booking.slot}"
+      assert html =~ "#{hd(booking.slots)}"
     end
 
     test "updates booking within modal", %{conn: conn, booking: booking} do

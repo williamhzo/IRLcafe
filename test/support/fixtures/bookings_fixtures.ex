@@ -21,7 +21,7 @@ defmodule Svoenix.BookingsFixtures do
       place_id: place_id,
       user_id: user_id,
       date: ~D[2023-03-17],
-      slot: "morning"
+      slots: ["morning"]
     })
   end
 end

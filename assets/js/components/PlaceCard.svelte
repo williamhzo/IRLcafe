@@ -18,7 +18,7 @@
   class="relative p-3 border rounded-base xs:p-4 bg-gray-50/75 sm:p-5 group overflow-hidden border-gray-100 h-full w-[95%] shrink-0 snap-center hover:border-gray-200 hover:shadow-sm transition-all duration-300"
 >
   {#if show_slots}
-    <Slots {place} {request} />
+    <Slots {place} {request} bind:show_slots />
   {/if}
 
   {#if !show_slots}

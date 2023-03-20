@@ -26,7 +26,7 @@ defmodule SvoenixWeb.Layouts do
 
       <Header.render current_user={@current_user} city={@city} />
 
-      <main class="py-4 md:py-8 px-2 md:px-12">
+      <main class="py-4 md:py-8 px-2 md:px-12 flex flex-col justify-center">
         <%= @inner_content %>
       </main>
 

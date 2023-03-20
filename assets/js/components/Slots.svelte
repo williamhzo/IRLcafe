@@ -9,6 +9,7 @@
 
   export let place;
   export let request;
+  export let show_slots;
 
   const today_date = new Date();
   const tomorrow_date = addDays(today_date, 1);
@@ -64,6 +65,16 @@
   $: console.log('selected_bookings', selected_bookings);
 
   let booking_success = false;
+
+  $: if (booking_success) {
+    setTimeout(() => {
+      booking_success = false;
+    }, 2000);
+
+    setTimeout(() => {
+      show_slots = false;
+    }, 2250);
+  }
 
   function submit_bookings() {
     if (selected_bookings.length > 0) {

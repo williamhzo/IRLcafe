@@ -78,13 +78,9 @@ defmodule Svoenix.Bookings do
   end
 
   def upsert_booking(place_id, user_id, date, slots) do
-    case Repo.insert(
-           %Booking{
-             place_id: place_id,
-             user_id: user_id,
-             date: date,
-             slots: slots
-           },
+    case %Booking{}
+         |> Booking.changeset(%{place_id: place_id, user_id: user_id, date: date, slots: slots})
+         |> Repo.insert(
            on_conflict: {:replace_all_except, [:place_id, :user_id, :date]},
            conflict_target: [:place_id, :user_id, :date]
          ) do

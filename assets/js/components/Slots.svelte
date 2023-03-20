@@ -62,19 +62,19 @@
     return bookings.filter((b) => is_same_booking(booking, b)).length;
   }
 
-  $: console.log('selected_bookings', selected_bookings);
-
   let booking_success = false;
 
   $: if (booking_success) {
     setTimeout(() => {
       booking_success = false;
-    }, 2000);
+    }, 3000);
 
     setTimeout(() => {
       show_slots = false;
-    }, 2250);
+    }, 3250);
   }
+
+  let success_message;
 
   function submit_bookings() {
     if (selected_bookings.length > 0) {
@@ -82,12 +82,16 @@
         'submit_bookings',
         { bookings: format_bookings(selected_bookings), place_id: place.id },
         ({ bookings }) => {
-          // FIXME: les bookings sont tous `null`
-          console.log('bookings', bookings);
           booking_success = true;
+          success_message = get_time_of_day_message(bookings);
         }
       );
     }
+  }
+
+  function get_time_of_day_message(bookings) {
+    const sorted_bookings = bookings.sort((a, b) => (a.date > b.date ? 1 : -1));
+    return sorted_bookings[0].date === today ? 'later' : 'tomorrow';
   }
 
   function format_bookings(bookings) {
@@ -200,7 +204,9 @@
         /></svg
       >
       <div class="flex flex-col items-center">
-        <p class="text-center text-lg font-bold">nice, see you tonight!</p>
+        <p class="text-center text-lg font-bold">
+          nice, see you {success_message}!
+        </p>
 
         <small class="text-muted"
           >tell your coffee-buddies to come over 👨‍💻☕</small
